@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#201E2B"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:id="@+id/log_in_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_bold"
+        android:text="@string/log_in_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/bel"
+        android:layout_gravity="center"
+        android:layout_marginTop="170dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/login_userLogin"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:textColor="#fdfdfd"
+        android:textColorHint="#6a6a6a"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/input_login"
+        android:layout_gravity="center"/>
+
+
+
+    <EditText
+        android:id="@+id/login_userPass"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:textColorHint="#6a6a6a"
+        android:textColor="#fdfdfd"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="@string/input_pass"
+        android:layout_gravity="center" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:backgroundTint="#000000"
+        android:text="@string/btnLog"/>
+
+    <TextView
+        android:id="@+id/txtDontHaveAcc"
+        android:layout_width="220dp"
+        android:layout_height="34dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:text="@string/dontHaveAcc"
+        android:textAlignment="center"
+        android:textColor="@color/bel"
+        android:textSize="12dp" />
+
+</LinearLayout>

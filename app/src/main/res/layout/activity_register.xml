@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg"
+    tools:context=".RegisterActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_acc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:layout_marginTop="170dp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/userLogin"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:textColor="#fdfdfd"
+            android:textColorHint="#6a6a6a"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="@string/input_login"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/userEmail"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:textColor="#fdfdfd"
+            android:textColorHint="#6a6a6a"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:hint="@string/input_email"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/userPass"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:textColorHint="#6a6a6a"
+            android:textColor="#fdfdfd"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:hint="@string/input_pass"
+            android:layout_gravity="center" />
+
+        <Button
+            android:id="@+id/btnReg"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/col_btn_RegText"
+            android:backgroundTint="@color/col_btn_RegBack"
+            android:text="@string/btnReg"/>
+
+        <TextView
+            android:id="@+id/txtHaveAcc"
+            android:layout_width="220dp"
+            android:layout_height="20dp"
+            android:text="@string/haveAcc"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
+            android:textColor="@color/bel"
+            android:textAlignment="center"
+            />
+
+</LinearLayout>
