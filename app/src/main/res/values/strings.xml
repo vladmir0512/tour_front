@@ -16,7 +16,7 @@
     <string name="input_login" >Логин</string>
     <string name="input_pass" >Пароль</string>
     <string name="btnLog" >Войти</string>
-    <string name="dontHaveAcc">Еще нет профиля? Создайте! ></string>
+    <string name="dontHaveAcc">Еще нет профиля? Создайте!</string>
     <string name="create_acc">Регистрация</string>
     <string name="input_email" >Почта</string>
     <string name="btnReg" >Зарегистрироваться</string>

@@ -3,8 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@color/bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".TechSupportActivity">
 
+    <TextView
+        android:id="@+id/textview_about_content"
+        android:layout_width="220dp"
+        android:layout_height="100dp"
+        android:layout_gravity="top|center"
+        android:text="Тех. поддержка"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.356"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.06"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
