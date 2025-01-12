@@ -1,7 +1,11 @@
 package com.bazaroff_alexey.newroutes
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -32,8 +36,13 @@ class LoginActivity : AppCompatActivity() {
         // Кнопки
         val txtDontHaveAcc = findViewById<TextView>(R.id.txtDontHaveAcc)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
+        val spannableStringBuilder = SpannableStringBuilder()
 
-    // Листенеры - в бой!
+        spannableStringBuilder.append(txtDontHaveAcc.text);
+        spannableStringBuilder.setSpan(ForegroundColorSpan(Color.WHITE), 17, 26, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // "Hello" будет красным
+
+        txtDontHaveAcc.text = spannableStringBuilder
+        // Листенеры - в бой!
         txtDontHaveAcc.setOnClickListener() {
             // Скачок на RegisterActivity
             val registerActivity = Intent(

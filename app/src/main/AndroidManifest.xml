@@ -13,6 +13,12 @@
         android:theme="@style/Theme.NewRoute"
         tools:targetApi="31">
         <activity
+            android:name=".Contacts"
+            android:exported="false" />
+        <activity
+            android:name=".PrivacyPolicyActivity"
+            android:exported="false" />
+        <activity
             android:name=".TechSupportActivity"
             android:exported="false" />
         <activity

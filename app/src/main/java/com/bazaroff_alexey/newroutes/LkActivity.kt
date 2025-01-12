@@ -56,9 +56,11 @@ class LkActivity : AppCompatActivity() {
             startActivity(preferenceActivity)
         }
         tech.setOnClickListener(){
+            Toast.makeText(this, "Техническая поддержка.", Toast.LENGTH_SHORT).show();
+
             // Скачок на MekeRoute
-            val techSupportActivity = Intent(this, TechSupportActivity::class.java)
-            startActivity(techSupportActivity)
+            //val techSupportActivity = Intent(this, TechSupportActivity::class.java)
+            //startActivity(techSupportActivity)
         }
         contacts.setOnClickListener(){
             // Скачок на MekeRoute
@@ -70,6 +72,8 @@ class LkActivity : AppCompatActivity() {
         }
         privacyPolicy.setOnClickListener(){
             Toast.makeText(this, "Политика конфиденциальности.", Toast.LENGTH_SHORT).show()
+            val privacyPolicyActivity = Intent(this, PrivacyPolicyActivity::class.java)
+            startActivity(privacyPolicyActivity)
         }
     }
 
