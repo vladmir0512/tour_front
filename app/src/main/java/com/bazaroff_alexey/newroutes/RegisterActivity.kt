@@ -1,17 +1,20 @@
 package com.bazaroff_alexey.newroutes
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.Locale
+
+
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -23,33 +26,79 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         // Указываем переменные, введенные пользователем из EditText
-        // Поля ввода
-        val userLogin = findViewById<EditText>(R.id.userLogin)
-        val userEmail = findViewById<EditText>(R.id.userEmail)
-        val userPass = findViewById<EditText>(R.id.userPass)
-
+        val userEmail: EditText = findViewById<EditText>(R.id.userEmail)
+        val userPass: EditText = findViewById<EditText>(R.id.userPass)
         // Кнопки
-        val txtHaveAcc = findViewById<TextView>(R.id.txtHaveAcc)
-        val btnReg = findViewById<Button>(R.id.btnReg)
-        val spannableStringBuilder = SpannableStringBuilder()
+        val txtHaveAcc: TextView = findViewById<TextView>(R.id.txtHaveAcc)
+        val btnReg: Button = findViewById<Button>(R.id.btnReg)
 
-        spannableStringBuilder.append(txtHaveAcc.text);
-        spannableStringBuilder.setSpan(ForegroundColorSpan(Color.WHITE), 18, 24, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // "Hello" будет красным
+        // "Войти" будет другим цветом
+        Utils.highlightText(txtHaveAcc, 18, 24)
 
-        txtHaveAcc.text = spannableStringBuilder;
+        onClickListeners(btnReg, txtHaveAcc, userEmail, userPass)
+    }
 
+    private fun onClickListeners(btnReg: Button, txtHaveAcc: TextView, userEmail: EditText, userPass: EditText){
 
-        txtHaveAcc.setOnClickListener(){
-            // Скачок на LoginActivity
-            val loginActivity = Intent(this, LoginActivity::class.java)
-            loginActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(loginActivity)
-            finish()
-
+        btnReg.setOnClickListener() {
+            sendData(userEmail, userPass)
         }
 
-        btnReg.setOnClickListener(){
-            Toast.makeText(this, "Регистрация успешна!", Toast.LENGTH_SHORT).show()        }
+        txtHaveAcc.setOnClickListener() {
+            toLoginActivity()
         }
+    }
+    private fun sendData(userEmail: EditText, userPass: EditText){
+        // Валидация полей
+        val email = userEmail.text.toString().lowercase(Locale.ROOT).replace(" ", "");
+        val password = userPass.text.toString().replace(" ", "");
+        if (!Utils.validateInput(this, email, password)) {
+            return
+        }
+        // Формируем запрос
+        val requestData = RequestData(email = email, password = password)
+        try {
+            // Отправляем данные
+            Log.d("RegisterActivity", "Отправка данных: $requestData") // Лог отправляемых данных
+            RetrofitAPI.instance.sendRegister(requestData).enqueue(object : Callback<ResponseData> {
+                override fun onResponse(call: Call<ResponseData>, response: Response<ResponseData>) {
+                    if (response.isSuccessful) {
+                        val responseData = response.body()
+                        Log.d("RegisterActivity", "Успешный ответ: $responseData") // Лог успешного ответа
+                        Toast.makeText(this@RegisterActivity, responseData?.message, Toast.LENGTH_SHORT).show()
+                        toLoginActivity()
+                    } else {
+                        Log.e("RegisterActivity", "Ошибка: ${response.code()}") // Лог ошибки
+                        Toast.makeText(this@RegisterActivity, "Ошибка: ${response.code()}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseData>, t: Throwable) {
+                    Log.e("RegisterActivty", "Ошибка при выполнении запроса: ${t.message}") // Лог ошибки при выполнении запроса
+                    Toast.makeText(this@RegisterActivity, "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } catch (e: Exception) {
+            Log.e("RegisterActivity", "Произошла ошибка: ${e.message}") // Лог исключения
+            Toast.makeText(this@RegisterActivity, "Произошла ошибка: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+    private fun toLoginActivity()
+    {
+        // Скачок на LoginActivity
+        val loginActivity = Intent(this@RegisterActivity, LoginActivity::class.java)
+        loginActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(loginActivity)
+        finish()
+    }
 
 }
+
+
+
+
+
+
+
+
+

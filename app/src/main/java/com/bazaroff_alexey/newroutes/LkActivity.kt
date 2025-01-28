@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,8 +16,10 @@ class LkActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_lk)
+
         // Указываем переменные, введенные пользователем из EditText
             // Поля ввода
+            val userEmail = intent.getStringExtra("email") // Используйте тот же ключ, что и в LoginActivity
 
             // Кнопки
             val exit = findViewById<Button>(R.id.exit);
@@ -28,6 +31,9 @@ class LkActivity : AppCompatActivity() {
             val avatar = findViewById<ImageView>(R.id.avatar);
             val privacyPolicy = findViewById<ImageView>(R.id.privacyPolicy);
 
+            val titleLkActivity = findViewById<TextView>(R.id.titleLk)
+
+            titleLkActivity.text = "Личный кабинет\n$userEmail"
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.lk)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -36,9 +42,10 @@ class LkActivity : AppCompatActivity() {
 
 
         exit.setOnClickListener(){
-            // Выход
-            Toast.makeText(this, "Спасибо, что вы с нами!", Toast.LENGTH_SHORT).show()
-            finish()
+//            // Выход
+//            Toast.makeText(this, "Спасибо, что вы с нами!", Toast.LENGTH_SHORT).show()
+//            finish()
+              Utils.showExitConfirmationDialog(this)
         }
         makeRoute.setOnClickListener(){
             // Скачок на HistoryRoutes

@@ -1,11 +1,8 @@
 package com.bazaroff_alexey.newroutes
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -14,6 +11,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.Locale
 
 class LoginActivity : AppCompatActivity() {
 
@@ -36,32 +38,100 @@ class LoginActivity : AppCompatActivity() {
         // Кнопки
         val txtDontHaveAcc = findViewById<TextView>(R.id.txtDontHaveAcc)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
-        val spannableStringBuilder = SpannableStringBuilder()
+        // "Создайте" будет другим цветом
+        Utils.highlightText(txtDontHaveAcc,17,26 )
 
-        spannableStringBuilder.append(txtDontHaveAcc.text);
-        spannableStringBuilder.setSpan(ForegroundColorSpan(Color.WHITE), 17, 26, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); // "Hello" будет красным
+        onClickListeners(btnLogin, txtDontHaveAcc, login_userLogin, login_userPass)
+    }
 
-        txtDontHaveAcc.text = spannableStringBuilder
-        // Листенеры - в бой!
-        txtDontHaveAcc.setOnClickListener() {
-            // Скачок на RegisterActivity
-            val registerActivity = Intent(
-                this,
-                RegisterActivity::class.java
-            )
-            startActivity(registerActivity)
-        }
-
+    private fun onClickListeners(btnLogin: Button, txtDontHaveAcc: TextView, login_userLogin: EditText, login_userPass: EditText)
+    {
         btnLogin.setOnClickListener() {
-            val lkActivity = Intent(this, LkActivity::class.java)
-            lkActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            startActivity(lkActivity)
-            finish();
+            val email = login_userLogin.text.toString().lowercase(Locale.ROOT).replace(" ", "");
+            val password = login_userPass.text.toString().replace(" ", "");
+            if (!Utils.validateInput(this, email, password)) {
+                return@setOnClickListener
+            }
+
+            sendData(email, password)
+
+        }
+
+        txtDontHaveAcc.setOnClickListener() {
+            toRegisterActivity()
         }
 
     }
 
+    private fun sendData(log: String, pass: String)
+    {
 
+        // Формируем запрос
+        val requestData = RequestData(email = log, password = pass)
+        try {
+            // Отправляем данные
+            Log.d("LoginActivity", "Отправка данных: $requestData") // Лог отправляемых данных
+            RetrofitAPI.instance.sendLogin(requestData).enqueue(object : Callback<FirebaseAuthResponse> {
+                override fun onResponse(call: Call<FirebaseAuthResponse>, response: Response<FirebaseAuthResponse>) {
+                    if (response.isSuccessful()) {
+                        val firebaseAuthResponse = response.body()
+                        Log.d("LoginActivity", "Успешный ответ: $firebaseAuthResponse") // Лог успешного ответа
+                        if (firebaseAuthResponse != null) {
+                            Log.d("FirebaseAuth", "User  ID: ${firebaseAuthResponse.localId}")
+                            Log.d("FirebaseAuth", "Email: ${firebaseAuthResponse.email}")
+                            Log.d("FirebaseAuth", "ID Token: ${firebaseAuthResponse.idToken}")
+                            Log.d("FirebaseAuth", "ID Token: ${firebaseAuthResponse}")
+                            Log.e("FirebaseAuth", firebaseAuthResponse.toString())
+                            // Перейти к следующему экрану
+                            toLKActivity(firebaseAuthResponse)
+                        }
+                    } else {
+                        // Извлечение сообщения об ошибке из тела ответа
+                        val errorResponse = response.errorBody()?.string()
+                        Log.e("LoginActivity", "Ошибка: ${response.code()} - $errorResponse")
+
+                        // Попробуем разобрать JSON, если это возможно
+                        try {
+                            val jsonObject = JSONObject(errorResponse)
+                            val errorMessage = jsonObject.getString("error")
+                            Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                        } catch (e: Exception) {
+                            Toast.makeText(this@LoginActivity, "Ошибка: ${response.message()}", Toast.LENGTH_SHORT).show()
+                        }
+                         }
+                }
+
+                override fun onFailure(call: Call<FirebaseAuthResponse>, t: Throwable) {
+                    Log.e("LoginActivity", "Ошибка при выполнении запроса: ${t.message}") // Лог ошибки при выполнении запроса
+                    Toast.makeText(this@LoginActivity, "Ошибка при выполнении запроса: ${t.message}", Toast.LENGTH_SHORT).show()
+
+                }
+            })
+        } catch (e: Exception) {
+            Log.e("LoginActivity", "Произошла ошибка: ${e.message}") // Лог исключения
+            Toast.makeText(this@LoginActivity, "Произошла ошибка: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
+    private fun toRegisterActivity(){
+        // Скачок на RegisterActivity
+        val registerActivity = Intent(
+            this@LoginActivity,
+            RegisterActivity::class.java
+        )
+        startActivity(registerActivity)
+    }
+    private fun toLKActivity(firebaseAuthResponse: FirebaseAuthResponse){
+        val lkActivity = Intent(
+            this@LoginActivity,
+            LkActivity::class.java)
+        lkActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        lkActivity.putExtra("email", firebaseAuthResponse.email)
+        startActivity(lkActivity)
+        finish();
+    }
+
+}
+
+
 
 

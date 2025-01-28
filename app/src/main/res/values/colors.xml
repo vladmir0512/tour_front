@@ -14,6 +14,8 @@
     <color name="col_btn_RegBack">#00000000</color>
     <color name="bel">#505073</color>
     <color name="bg">#201E2B</color>
+    <color name="grey">#B5B5B5</color>
+    <color name="red">#FF0000</color>
 
 
 </resources>
