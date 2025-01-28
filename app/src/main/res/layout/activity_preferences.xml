@@ -1,25 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:background="@color/bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".PreferencesActivity">
 
-    <TextView
-        android:id="@+id/textview_about_content"
-        android:layout_width="220dp"
-        android:layout_height="100dp"
-        android:layout_gravity="top|center"
-        android:text="Настройки"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.076" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/highContrastText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Тема приложения"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/themeRadioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radioSystemTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Системная тема" />
+
+            <RadioButton
+                android:id="@+id/radioDarkTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Темная тема" />
+
+            <RadioButton
+                android:id="@+id/radioLightTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Светлая тема" />
+
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Дополнительные настройки"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/highContrastButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Режим высокой контрастности" />
+
+    </LinearLayout>
