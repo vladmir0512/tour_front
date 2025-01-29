@@ -3,16 +3,15 @@ package com.bazaroff_alexey.newroutes
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
-import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.util.Log
-import android.view.LayoutInflater
+import android.widget.CompoundButton
 import android.widget.TextView
 import android.widget.Toast
+
 
 object Utils {
     fun highlightText(word: TextView, startSymbol: Int, endSymbol: Int){
@@ -49,7 +48,7 @@ object Utils {
         return true
     }
 
-    fun showExitConfirmationDialog(context: Context) {
+    fun showExitConfirmationDialog(context: Context, ) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Вы действительно хотите выйти?")
         builder.setPositiveButton("Да") { _, _ ->
@@ -75,7 +74,6 @@ object Utils {
             positiveButton.setBackgroundColor(context.resources.getColor(R.color.red)) // Красный цвет
         }, 5000)
     }
-
 
 
 

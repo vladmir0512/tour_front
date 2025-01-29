@@ -84,21 +84,48 @@
             app:layout_constraintTop_toBottomOf="@+id/userEmail"
             app:layout_constraintVertical_bias="0.0" />
 
+        <CheckBox
+            android:id="@+id/checkbox_privacy_policy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="116dp"
+            android:text="Я ознакомлен с политикой конфиденциальности"
+            android:textColor="#6a6a6a"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.53"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtHaveAcc" />
+
+        <CheckBox
+            android:id="@+id/checkbox_data_processing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Я согласен на обработку персональных данных"
+            android:textColor="#6a6a6a"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkbox_privacy_policy"
+            app:layout_constraintVertical_bias="0.0" />
+
         <Button
             android:id="@+id/btnReg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="12dp"
+            android:background="@drawable/button_selector"
             android:backgroundTint="@color/bel"
             android:text="@string/btnReg"
             android:textColor="@color/col_btn_RegText"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userPass"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.043" />
 
         <TextView
             android:id="@+id/txtHaveAcc"
@@ -108,7 +135,7 @@
             android:layout_marginTop="4dp"
             android:text="@string/haveAcc"
             android:textAlignment="center"
-            android:textColor="@color/bel"
+            android:textColor="#6a6a6a"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

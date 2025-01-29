@@ -1,9 +1,12 @@
 package com.bazaroff_alexey.newroutes
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -20,10 +23,17 @@ import java.util.Locale
 class RegisterActivity : AppCompatActivity() {
 
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register)
+
+        // Чекбоксы
+        val checkboxPrivacyPolicy: CheckBox = findViewById<CheckBox>(R.id.checkbox_privacy_policy)
+        val checkboxDataProcessing: CheckBox = findViewById<CheckBox>(R.id.checkbox_data_processing)
+
+
 
         // Указываем переменные, введенные пользователем из EditText
         val userEmail: EditText = findViewById<EditText>(R.id.userEmail)
@@ -31,14 +41,31 @@ class RegisterActivity : AppCompatActivity() {
         // Кнопки
         val txtHaveAcc: TextView = findViewById<TextView>(R.id.txtHaveAcc)
         val btnReg: Button = findViewById<Button>(R.id.btnReg)
+        btnReg.isEnabled = false
+        val checkChangeListener =
+            CompoundButton.OnCheckedChangeListener { buttonView, isChecked -> // Проверка состояния чекбоксов
 
+                val isPrivacyChecked: Boolean = checkboxPrivacyPolicy.isChecked()
+                val isDataProcessingChecked: Boolean = checkboxDataProcessing.isChecked()
+
+                // Активируем кнопку, если оба чекбокса отмечены
+                btnReg.setEnabled(isPrivacyChecked && isDataProcessingChecked)
+
+            }
+        checkboxPrivacyPolicy.setOnCheckedChangeListener(checkChangeListener)
+        checkboxDataProcessing.setOnCheckedChangeListener(checkChangeListener)
+        checkboxPrivacyPolicy.setOnClickListener(){
+            checkboxPrivacyPolicy.isChecked = true // Сохраняем состояние
+            checkboxPrivacyPolicy.isEnabled = false // Делаем чекбокс неактивным
+            toPrivacyPolicy()
+        }
         // "Войти" будет другим цветом
         Utils.highlightText(txtHaveAcc, 18, 24)
 
-        onClickListeners(btnReg, txtHaveAcc, userEmail, userPass)
+        onClickListeners(btnReg, txtHaveAcc, userEmail, userPass, checkboxPrivacyPolicy)
     }
 
-    private fun onClickListeners(btnReg: Button, txtHaveAcc: TextView, userEmail: EditText, userPass: EditText){
+    private fun onClickListeners(btnReg: Button, txtHaveAcc: TextView, userEmail: EditText, userPass: EditText, checkboxPrivacyPolicy: CheckBox){
 
         btnReg.setOnClickListener() {
             sendData(userEmail, userPass)
@@ -47,6 +74,7 @@ class RegisterActivity : AppCompatActivity() {
         txtHaveAcc.setOnClickListener() {
             toLoginActivity()
         }
+
     }
     private fun sendData(userEmail: EditText, userPass: EditText){
         // Валидация полей
@@ -90,6 +118,14 @@ class RegisterActivity : AppCompatActivity() {
         loginActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(loginActivity)
         finish()
+    }
+
+    private fun toPrivacyPolicy()
+    {
+        // Скачок на LoginActivity
+
+        val privacyPolicy = Intent(this@RegisterActivity, PrivacyPolicyActivity::class.java)
+        startActivity(privacyPolicy)
     }
 
 }

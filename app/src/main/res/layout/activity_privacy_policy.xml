@@ -1,13 +1,32 @@
-<!-- res/layout/activity_privacy_policy.xml -->
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<ScrollView
+    android:id="@+id/SVokPP"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+ >
 
     <TextView
         android:id="@+id/privacy_policy_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="@string/privacy_policy_text" /> <!-- Замените на ваш текст -->
+        android:text="@string/privacy_policy_text" />
+
+
 </ScrollView>
+    <Button
+        android:id="@+id/okPP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/SVokPP"
+        android:background="@color/bel"
+        android:text="OK"
+        android:textColor="@color/col_btn_RegText"
+        android:textSize="12sp"
+        tools:ignore="NotSibling" />
+</RelativeLayout>
