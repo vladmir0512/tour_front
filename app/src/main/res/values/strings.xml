@@ -13,7 +13,7 @@
     <string name="re_type_password">Re-type Password</string>
     <string name="your_name">Full Name</string>
     <string name="log_in_title">Вход</string>
-    <string name="input_login">Логин</string>
+    <string name="input_login">Почта</string>
     <string name="input_pass">Пароль</string>
     <string name="btnLog">Войти</string>
     <string name="dontHaveAcc">Еще нет профиля? Создайте!</string>
@@ -68,4 +68,8 @@
 
 Если у вас есть вопросы о данной Политике конфиденциальности или о том, как мы обрабатываем ваши персональные данные, пожалуйста, свяжитесь с нами по адресу: [Электронная почта или адрес компании].</string>
     <string name="contact">Ансуров Роман Алексеевич (консультант) - \n\t+79526562644\n Терешов Вадим Олегович (консультант) - \n\t+79084196649\n Плотников Илья Антипович (консультант) - \n\t+79664411235</string>
+    <string name="txtAddressTitle">Введите адрес назначения</string>
+    <string name="addressHint">Куда направляетесь? (Например, г.Новочеркасск, ул. Просвещения, д. 132)</string>
+    <string name="txtAddressBtn">Ввод</string>
+
 </resources>

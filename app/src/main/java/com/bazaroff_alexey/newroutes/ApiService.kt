@@ -11,4 +11,8 @@ interface ApiService {
 
     @POST("/api/users/login/") // Укажите правильный путь к вашему API
     fun sendLogin(@Body requestData: RequestData): Call<FirebaseAuthResponse>
+
+    @POST("/api/users/upload_image/")
+    fun uploadImage(@Body imageData: ImageData): Call<ResponseData> // Используйте подходящий тип ответа
+
 }

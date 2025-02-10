@@ -12,6 +12,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class LkActivity : AppCompatActivity() {
+    private val REQUEST_CODE_READ_EXTERNAL_STORAGE = 101 // Выберите любое уникальное число
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -49,8 +51,8 @@ class LkActivity : AppCompatActivity() {
         }
         makeRoute.setOnClickListener(){
             // Скачок на HistoryRoutes
-            val makeRouteActivity = Intent(this, MakeRouteActivity::class.java)
-            startActivity(makeRouteActivity)
+            val addressActivity = Intent(this, AddressActivity::class.java)
+            startActivity(addressActivity)
         }
         historyRoute.setOnClickListener(){
             // Скачок на HistoryRoutes
@@ -76,12 +78,14 @@ class LkActivity : AppCompatActivity() {
         }
         avatar.setOnClickListener(){
             Toast.makeText(this, "Тут место для вашего аватара.", Toast.LENGTH_SHORT).show()
+            // Проверьте, предоставлено ли разрешение
+
         }
-        privacyPolicy.setOnClickListener(){
-            Toast.makeText(this, "Политика конфиденциальности.", Toast.LENGTH_SHORT).show()
-            val privacyPolicyActivity = Intent(this, PrivacyPolicyActivity::class.java)
-            startActivity(privacyPolicyActivity)
-        }
+//        privacyPolicy.setOnClickListener(){
+//            Toast.makeText(this, "Политика конфиденциальности.", Toast.LENGTH_SHORT).show()
+//            val privacyPolicyActivity = Intent(this, PrivacyPolicyActivity::class.java)
+//            startActivity(privacyPolicyActivity)
+//        }
     }
 
 

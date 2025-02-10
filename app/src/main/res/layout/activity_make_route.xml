@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/makeRoute"
@@ -8,23 +8,9 @@
     android:layout_height="match_parent"
     tools:context=".MakeRouteActivity">
 
-    <TextView
-        android:id="@+id/textview_about_content"
-        android:layout_width="220dp"
-        android:layout_height="100dp"
-        android:layout_gravity="top|center"
-        android:text="Проложить маршрут"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.35"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.093" />
 
     <WebView
         android:id="@+id/webview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_width="411dp"
+        android:layout_height="668dp" />
+</RelativeLayout>

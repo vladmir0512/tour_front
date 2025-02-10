@@ -21,3 +21,8 @@ data class FirebaseAuthResponse(
     val refreshToken: String,
     val expiresIn: String
 )
+
+data class ImageData(
+    val userId: String, // ID пользователя
+    val imageUrl: String // URL фотографии
+)
