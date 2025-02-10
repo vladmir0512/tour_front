@@ -1,6 +1,7 @@
 package com.bazaroff_alexey.newroutes
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Toast
@@ -54,8 +55,9 @@ class AddressActivity : AppCompatActivity() {
                             val locationResult = task.result
                             if (locationResult != null) {
                                 val location =
-                                    "Latitude: ${locationResult.latitude}\nLongitude: ${locationResult.longitude}"
-                                binding.txtAddAddress.text = location
+                                    "${locationResult.latitude},${locationResult.longitude}"
+                                toMakeRoute(location)
+
                             } else {
                                 Toast.makeText(
                                     this,
@@ -109,7 +111,7 @@ class AddressActivity : AppCompatActivity() {
         val client = LocationServices.getSettingsClient(this)
         val task = client.checkLocationSettings(builder.build())
         task.addOnSuccessListener {
-
+            //TODO
         }
 
         task.addOnFailureListener { exception ->
@@ -124,6 +126,16 @@ class AddressActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun toMakeRoute(location: String) {
+        val makeRouteActivity = Intent(
+            this@AddressActivity,
+            MakeRouteActivity::class.java
+        )
+        makeRouteActivity.putExtra("selfLocation", location)
+        startActivity(makeRouteActivity)
+        finish();
     }
 }
 
