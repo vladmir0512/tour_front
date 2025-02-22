@@ -17,6 +17,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.Locale
 
+
 class LoginActivity : AppCompatActivity() {
 
 
@@ -39,13 +40,17 @@ class LoginActivity : AppCompatActivity() {
         val txtDontHaveAcc = findViewById<TextView>(R.id.txtDontHaveAcc)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         // "Создайте" будет другим цветом
-        Utils.highlightText(txtDontHaveAcc,17,26 )
+        Utils.highlightText(txtDontHaveAcc, 17, 26)
 
         onClickListeners(btnLogin, txtDontHaveAcc, login_userLogin, login_userPass)
     }
 
-    private fun onClickListeners(btnLogin: Button, txtDontHaveAcc: TextView, login_userLogin: EditText, login_userPass: EditText)
-    {
+    private fun onClickListeners(
+        btnLogin: Button,
+        txtDontHaveAcc: TextView,
+        login_userLogin: EditText,
+        login_userPass: EditText
+    ) {
         btnLogin.setOnClickListener() {
             val email = login_userLogin.text.toString().lowercase(Locale.ROOT).replace(" ", "");
             val password = login_userPass.text.toString().replace(" ", "");
@@ -63,56 +68,76 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun sendData(log: String, pass: String)
-    {
+    private fun sendData(log: String, pass: String) {
 
         // Формируем запрос
         val requestData = RequestData(email = log, password = pass)
         try {
             // Отправляем данные
             Log.d("LoginActivity", "Отправка данных: $requestData") // Лог отправляемых данных
-            RetrofitAPI.instance.sendLogin(requestData).enqueue(object : Callback<FirebaseAuthResponse> {
-                override fun onResponse(call: Call<FirebaseAuthResponse>, response: Response<FirebaseAuthResponse>) {
-                    if (response.isSuccessful()) {
-                        val firebaseAuthResponse = response.body()
-                        Log.d("LoginActivity", "Успешный ответ: $firebaseAuthResponse") // Лог успешного ответа
-                        if (firebaseAuthResponse != null) {
-                            Log.d("FirebaseAuth", "User  ID: ${firebaseAuthResponse.localId}")
-                            Log.d("FirebaseAuth", "Email: ${firebaseAuthResponse.email}")
-                            Log.d("FirebaseAuth", "ID Token: ${firebaseAuthResponse.idToken}")
-                            Log.d("FirebaseAuth", "ID Token: ${firebaseAuthResponse}")
-                            Log.e("FirebaseAuth", firebaseAuthResponse.toString())
-                            // Перейти к следующему экрану
-                            toLKActivity(firebaseAuthResponse)
+            RetrofitAPI.instance.sendLogin(requestData)
+                .enqueue(object : Callback<FirebaseAuthResponse> {
+                    override fun onResponse(
+                        call: Call<FirebaseAuthResponse>,
+                        response: Response<FirebaseAuthResponse>
+                    ) {
+                        if (response.isSuccessful()) {
+                            val firebaseAuthResponse = response.body()
+                            Log.d(
+                                "LoginActivity",
+                                "Успешный ответ: $firebaseAuthResponse"
+                            ) // Лог успешного ответа
+                            if (firebaseAuthResponse != null) {
+                                Log.d("FirebaseAuth", "User  ID: ${firebaseAuthResponse.localId}")
+                                Log.d("FirebaseAuth", "Email: ${firebaseAuthResponse.email}")
+                                Log.d("FirebaseAuth", "ID Token: ${firebaseAuthResponse.idToken}")
+                                Log.d("FirebaseAuth", "ID Token: ${firebaseAuthResponse}")
+                                Log.e("FirebaseAuth", firebaseAuthResponse.toString())
+                                // Перейти к следующему экрану
+                                toLKActivity(firebaseAuthResponse)
+                            }
+                        } else {
+                            // Извлечение сообщения об ошибке из тела ответа
+                            val errorResponse = response.errorBody()?.string()
+                            Log.e("LoginActivity", "Ошибка: ${response.code()} - $errorResponse")
+
+                            // Попробуем разобрать JSON, если это возможно
+                            try {
+                                val jsonObject = JSONObject(errorResponse)
+                                val errorMessage = jsonObject.getString("error")
+                                Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_SHORT)
+                                    .show()
+                            } catch (e: Exception) {
+                                Toast.makeText(
+                                    this@LoginActivity,
+                                    "Ошибка: ${response.message()}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
-                    } else {
-                        // Извлечение сообщения об ошибке из тела ответа
-                        val errorResponse = response.errorBody()?.string()
-                        Log.e("LoginActivity", "Ошибка: ${response.code()} - $errorResponse")
+                    }
 
-                        // Попробуем разобрать JSON, если это возможно
-                        try {
-                            val jsonObject = JSONObject(errorResponse)
-                            val errorMessage = jsonObject.getString("error")
-                            Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_SHORT).show()
-                        } catch (e: Exception) {
-                            Toast.makeText(this@LoginActivity, "Ошибка: ${response.message()}", Toast.LENGTH_SHORT).show()
-                        }
-                         }
-                }
+                    override fun onFailure(call: Call<FirebaseAuthResponse>, t: Throwable) {
+                        Log.e(
+                            "LoginActivity",
+                            "Ошибка при выполнении запроса: ${t.message}"
+                        ) // Лог ошибки при выполнении запроса
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Ошибка при выполнении запроса: ${t.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                override fun onFailure(call: Call<FirebaseAuthResponse>, t: Throwable) {
-                    Log.e("LoginActivity", "Ошибка при выполнении запроса: ${t.message}") // Лог ошибки при выполнении запроса
-                    Toast.makeText(this@LoginActivity, "Ошибка при выполнении запроса: ${t.message}", Toast.LENGTH_SHORT).show()
-
-                }
-            })
+                    }
+                })
         } catch (e: Exception) {
             Log.e("LoginActivity", "Произошла ошибка: ${e.message}") // Лог исключения
-            Toast.makeText(this@LoginActivity, "Произошла ошибка: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@LoginActivity, "Произошла ошибка: ${e.message}", Toast.LENGTH_SHORT)
+                .show()
         }
     }
-    private fun toRegisterActivity(){
+
+    private fun toRegisterActivity() {
         // Скачок на RegisterActivity
         val registerActivity = Intent(
             this@LoginActivity,
@@ -120,18 +145,16 @@ class LoginActivity : AppCompatActivity() {
         )
         startActivity(registerActivity)
     }
-    private fun toLKActivity(firebaseAuthResponse: FirebaseAuthResponse){
-        val lkActivity = Intent(
-            this@LoginActivity,
-            LkActivity::class.java)
-        lkActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+    private fun toLKActivity(firebaseAuthResponse: FirebaseAuthResponse) {
+        val lkActivity = Intent(this@LoginActivity, LkActivity::class.java)
+        lkActivity.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         lkActivity.putExtra("email", firebaseAuthResponse.email)
+        lkActivity.putExtra("user_id", firebaseAuthResponse.localId) // Добавляем user_id!
+        lkActivity.putExtra("avatar_url", firebaseAuthResponse.avatarUrl) // Добавляем URL аватара
+
         startActivity(lkActivity)
-        finish();
+        finish()
     }
 
 }
-
-
-
-

@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/txtAddressTitle"
+        android:layout_marginTop="50px"
         android:textColor="#F0F0F0"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -26,6 +27,7 @@
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
+        android:layout_marginTop="50px"
         android:hint="@string/addressHint"
         android:inputType="textMultiLine"
         android:textColor="#fdfdfd"

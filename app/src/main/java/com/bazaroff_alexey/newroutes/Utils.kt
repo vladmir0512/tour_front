@@ -1,30 +1,19 @@
 package com.bazaroff_alexey.newroutes
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.Location
 import android.os.Handler
 import android.os.Looper
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.widget.CompoundButton
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.Task
-
-
-
 
 
 object Utils {
-    fun highlightText(word: TextView, startSymbol: Int, endSymbol: Int){
+    fun highlightText(word: TextView, startSymbol: Int, endSymbol: Int) {
         val spannableStringBuilder = SpannableStringBuilder()
 
         spannableStringBuilder.append(word.text);
@@ -45,20 +34,28 @@ object Utils {
 
         // Проверка формата электронной почты
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(context, "Введите корректный адрес электронной почты", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "Введите корректный адрес электронной почты",
+                Toast.LENGTH_SHORT
+            ).show()
             return false
         }
 
         // Проверка длины пароля
         if (password.length < 6) {
-            Toast.makeText(context, "Пароль должен содержать не менее 6 символов", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "Пароль должен содержать не менее 6 символов",
+                Toast.LENGTH_SHORT
+            ).show()
             return false
         }
 
         return true
     }
 
-    fun showExitConfirmationDialog(context: Context, ) {
+    fun showExitConfirmationDialog(context: Context) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Вы действительно хотите выйти?")
         builder.setPositiveButton("Да") { _, _ ->
@@ -85,21 +82,5 @@ object Utils {
         }, 5000)
     }
 
-//    fun fetchLocation(context: Context, client: FusedLocationProviderClient): String? {
-//        val task = client.lastLocation
-//        if(ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION)
-//            != PackageManager.PERMISSION_GRANTED && ActivityCompat
-//                .checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION)
-//            != PackageManager.PERMISSION_GRANTED){
-//            ActivityCompat.requestPermissions(context as Activity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101)
-//        }
-//
-//        if (task.result != null){
-//            return task.result.latitude.toString()
-//        }
-//        else{
-//            return null
-//        }
-//    }
 
 }

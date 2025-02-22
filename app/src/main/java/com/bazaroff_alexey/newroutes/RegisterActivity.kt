@@ -18,8 +18,6 @@ import retrofit2.Response
 import java.util.Locale
 
 
-
-
 class RegisterActivity : AppCompatActivity() {
 
 
@@ -32,7 +30,6 @@ class RegisterActivity : AppCompatActivity() {
         // Чекбоксы
         val checkboxPrivacyPolicy: CheckBox = findViewById<CheckBox>(R.id.checkbox_privacy_policy)
         val checkboxDataProcessing: CheckBox = findViewById<CheckBox>(R.id.checkbox_data_processing)
-
 
 
         // Указываем переменные, введенные пользователем из EditText
@@ -54,7 +51,7 @@ class RegisterActivity : AppCompatActivity() {
             }
         checkboxPrivacyPolicy.setOnCheckedChangeListener(checkChangeListener)
         checkboxDataProcessing.setOnCheckedChangeListener(checkChangeListener)
-        checkboxPrivacyPolicy.setOnClickListener(){
+        checkboxPrivacyPolicy.setOnClickListener() {
             checkboxPrivacyPolicy.isChecked = true // Сохраняем состояние
             checkboxPrivacyPolicy.isEnabled = false // Делаем чекбокс неактивным
             toPrivacyPolicy()
@@ -65,7 +62,13 @@ class RegisterActivity : AppCompatActivity() {
         onClickListeners(btnReg, txtHaveAcc, userEmail, userPass, checkboxPrivacyPolicy)
     }
 
-    private fun onClickListeners(btnReg: Button, txtHaveAcc: TextView, userEmail: EditText, userPass: EditText, checkboxPrivacyPolicy: CheckBox){
+    private fun onClickListeners(
+        btnReg: Button,
+        txtHaveAcc: TextView,
+        userEmail: EditText,
+        userPass: EditText,
+        checkboxPrivacyPolicy: CheckBox
+    ) {
 
         btnReg.setOnClickListener() {
             sendData(userEmail, userPass)
@@ -76,7 +79,8 @@ class RegisterActivity : AppCompatActivity() {
         }
 
     }
-    private fun sendData(userEmail: EditText, userPass: EditText){
+
+    private fun sendData(userEmail: EditText, userPass: EditText) {
         // Валидация полей
         val email = userEmail.text.toString().lowercase(Locale.ROOT).replace(" ", "");
         val password = userPass.text.toString().replace(" ", "");
@@ -89,30 +93,69 @@ class RegisterActivity : AppCompatActivity() {
             // Отправляем данные
             Log.d("RegisterActivity", "Отправка данных: $requestData") // Лог отправляемых данных
             RetrofitAPI.instance.sendRegister(requestData).enqueue(object : Callback<ResponseData> {
-                override fun onResponse(call: Call<ResponseData>, response: Response<ResponseData>) {
+                override fun onResponse(
+                    call: Call<ResponseData>,
+                    response: Response<ResponseData>
+                ) {
                     if (response.isSuccessful) {
                         val responseData = response.body()
-                        Log.d("RegisterActivity", "Успешный ответ: $responseData") // Лог успешного ответа
-                        Toast.makeText(this@RegisterActivity, responseData?.message, Toast.LENGTH_SHORT).show()
+                        Log.d(
+                            "RegisterActivity",
+                            "Успешный ответ: $responseData"
+                        ) // Лог успешного ответа
+                        Toast.makeText(
+                            this@RegisterActivity,
+                            responseData?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                         toLoginActivity()
                     } else {
-                        Log.e("RegisterActivity", "Ошибка: ${response.code()}") // Лог ошибки
-                        Toast.makeText(this@RegisterActivity, "Ошибка: ${response.code()}", Toast.LENGTH_SHORT).show()
+                        if (response.code() == 400) {
+                            Log.e(
+                                "RegisterActivity",
+                                "Ошибка: ${response.code()} Пользователь с такой почтой уже существует"
+                            ) // Лог ошибки
+                            Toast.makeText(
+                                this@RegisterActivity,
+                                "Пользователь с такой почтой уже существует",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        } else {
+                            Log.e("RegisterActivity", "Ошибка: ${response.code()}") // Лог ошибки
+                            Toast.makeText(
+                                this@RegisterActivity,
+                                "Ошибка: ${response.code()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
                     }
                 }
 
                 override fun onFailure(call: Call<ResponseData>, t: Throwable) {
-                    Log.e("RegisterActivty", "Ошибка при выполнении запроса: ${t.message}") // Лог ошибки при выполнении запроса
-                    Toast.makeText(this@RegisterActivity, "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
+                    Log.e(
+                        "RegisterActivty",
+                        "Ошибка при выполнении запроса: ${t.message}"
+                    ) // Лог ошибки при выполнении запроса
+                    Toast.makeText(
+                        this@RegisterActivity,
+                        "Ошибка: ${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
         } catch (e: Exception) {
             Log.e("RegisterActivity", "Произошла ошибка: ${e.message}") // Лог исключения
-            Toast.makeText(this@RegisterActivity, "Произошла ошибка: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this@RegisterActivity,
+                "Произошла ошибка: ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
-    private fun toLoginActivity()
-    {
+
+    private fun toLoginActivity() {
         // Скачок на LoginActivity
         val loginActivity = Intent(this@RegisterActivity, LoginActivity::class.java)
         loginActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -120,8 +163,7 @@ class RegisterActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun toPrivacyPolicy()
-    {
+    private fun toPrivacyPolicy() {
         // Скачок на LoginActivity
 
         val privacyPolicy = Intent(this@RegisterActivity, PrivacyPolicyActivity::class.java)

@@ -1,9 +1,13 @@
 package com.bazaroff_alexey.newroutes
 
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Query
 
 
@@ -18,7 +22,14 @@ interface ApiService {
     /* SEARCH COORDS (address to coords) */
     @GET("/api/search/")
     fun searchAddress(@Query("query") query: String): Call<AddressResponse>
-//    @POST("/api/users/upload_image/")
-//    fun uploadImage(@Body imageData: ImageData): Call<ResponseData> // Используйте подходящий тип ответа
 
+    @GET("/api/users/avatar/")
+    fun getUserAvatar(@Query("user_id") userId: String): Call<UserProfileResponse>
+
+    @Multipart
+    @POST("/api/users/upload-avatar/")
+    fun uploadAvatar(
+        @Part avatar: MultipartBody.Part,
+        @Part("userId") userId: RequestBody
+    ): Call<UploadAvatarResponse>
 }
