@@ -26,7 +26,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register)
-
+        Utils.clearUidFromSharedPreferences(this)
         // Чекбоксы
         val checkboxPrivacyPolicy: CheckBox = findViewById<CheckBox>(R.id.checkbox_privacy_policy)
         val checkboxDataProcessing: CheckBox = findViewById<CheckBox>(R.id.checkbox_data_processing)
@@ -170,9 +170,8 @@ class RegisterActivity : AppCompatActivity() {
         startActivity(privacyPolicy)
     }
 
+
 }
-
-
 
 
 

@@ -1,6 +1,7 @@
 package com.bazaroff_alexey.newroutes
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -8,12 +9,15 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import okhttp3.MediaType
@@ -25,6 +29,7 @@ import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
 
+
 class LkActivity : AppCompatActivity() {
 
     private lateinit var avatarImageView: ImageView
@@ -32,17 +37,86 @@ class LkActivity : AppCompatActivity() {
     private lateinit var userId: String
     private val PICK_IMAGE_REQUEST = 1
 
+
+    @SuppressLint("SetTextI18n", "CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lk)
+// Указываем переменные, введенные пользователем из EditText
+        // Поля ввода
+        val uid = Utils.getUidFromSharedPreferences(this)
 
+        if (uid != null) {
+            // используем UID
+            Log.d("LkActivity", "UID: $uid")
+        } else {
+            // Если UID не найден, например, перенаправляем на экран логина
+            Toast.makeText(this, "Пожалуйста, войдите снова", Toast.LENGTH_SHORT).show()
+        }
+
+        val userEmail =
+            intent.getStringExtra("email") // Используйте тот же ключ, что и в LoginActivity
+
+        // Кнопки
+        val exit = findViewById<Button>(R.id.exit);
+        val makeRoute = findViewById<Button>(R.id.makeRoute);
+        val historyRoute = findViewById<Button>(R.id.historyRoute);
+        val preference = findViewById<Button>(R.id.preference);
+        val tech = findViewById<Button>(R.id.tech);
+        val contacts = findViewById<Button>(R.id.contacts);
+        val privacyPolicy = findViewById<ImageView>(R.id.privacyPolicy);
+
+        val titleLkActivity = findViewById<TextView>(R.id.titleLk)
+
+        titleLkActivity.text = "Личный кабинет\n$userEmail"
         avatarImageView = findViewById(R.id.avatar)
         emailTextView = findViewById(R.id.titleLk)
 
         userId = intent.getStringExtra("user_id") ?: "Неизвестный"
         emailTextView.text = intent.getStringExtra("email") ?: "Неизвестный"
 
-        Log.d("LkActivity", "userID: $userId")
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.lk)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+
+        exit.setOnClickListener() {
+//            // Выход
+            Utils.showExitConfirmationDialog(this)
+        }
+        makeRoute.setOnClickListener() {
+            Log.d("LkActivity", "Передача userId: $userId")
+
+            val addressActivity = Intent(this, AddressActivity::class.java)
+            addressActivity.putExtra("USER_ID", uid) // убедись, что userId - это Int
+            startActivity(addressActivity)
+
+        }
+        historyRoute.setOnClickListener() {
+            // Скачок на HistoryRoutes
+            val historyRoutes = Intent(this, HistoryRoutesActivity::class.java)
+            startActivity(historyRoutes)
+        }
+        preference.setOnClickListener() {
+            // Скачок на MekeRoute
+            val preferenceActivity = Intent(this, PreferencesActivity::class.java)
+            startActivity(preferenceActivity)
+        }
+        tech.setOnClickListener() {
+            Toast.makeText(this, "Техническая поддержка.", Toast.LENGTH_SHORT).show();
+
+            // Скачок на MekeRoute
+            //val techSupportActivity = Intent(this, TechSupportActivity::class.java)
+            //startActivity(techSupportActivity)
+        }
+        contacts.setOnClickListener() {
+            // Скачок на MekeRoute
+            val contactsActivity = Intent(this, ContactsActivity::class.java)
+            startActivity(contactsActivity)
+        }
+        Log.d("LkActivity", "USER_ID: $userId")
 
         loadUserAvatar(userId)
 

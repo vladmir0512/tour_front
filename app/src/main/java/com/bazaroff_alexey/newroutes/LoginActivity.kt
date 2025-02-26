@@ -1,6 +1,8 @@
 package com.bazaroff_alexey.newroutes
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -152,9 +154,17 @@ class LoginActivity : AppCompatActivity() {
         lkActivity.putExtra("email", firebaseAuthResponse.email)
         lkActivity.putExtra("user_id", firebaseAuthResponse.localId) // Добавляем user_id!
         lkActivity.putExtra("avatar_url", firebaseAuthResponse.avatarUrl) // Добавляем URL аватара
-
+        saveUidToSharedPreferences(this, firebaseAuthResponse.localId)
         startActivity(lkActivity)
         finish()
     }
 
+}
+
+fun saveUidToSharedPreferences(context: Context, uid: String) {
+    val sharedPreferences: SharedPreferences =
+        context.getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
+    val editor: SharedPreferences.Editor = sharedPreferences.edit()
+    editor.putString("UID", uid) // Сохраняем UID в SharedPreferences
+    editor.apply()
 }

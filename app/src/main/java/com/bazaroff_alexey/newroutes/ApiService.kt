@@ -32,4 +32,11 @@ interface ApiService {
         @Part avatar: MultipartBody.Part,
         @Part("userId") userId: RequestBody
     ): Call<UploadAvatarResponse>
+
+    @GET("/api/users/routes/")
+    fun getRoutes(): Call<List<Route>>
+
+    @POST("/api/users/routes/update-rating/")
+    fun updateRouteRating(@Body ratingRequest: RatingRequest): Call<RatingResponse>
+
 }

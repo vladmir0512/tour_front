@@ -41,4 +41,22 @@ data class UserProfileResponse(
     @SerializedName("avatar_url") val avatarUrl: String?
 )
 
+data class Route(
+    val id: Int,
+    val name: String,
+    val comment: String,
+    val created_at: String,
+    val user: Int,
+    val distance: Double,
+    val coords: String,
+    val rating: Int
+)
 
+data class RatingRequest(
+    val route_id: Int,
+    val rating: Int
+)
+
+data class RatingResponse(
+    val message: String
+)

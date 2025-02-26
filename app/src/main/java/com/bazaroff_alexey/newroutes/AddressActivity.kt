@@ -30,17 +30,32 @@ class AddressActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var binding: ActivityAdressBinding
 
+
     //variables for finish location
     private lateinit var autoCompleteTextView: AutoCompleteTextView
     private lateinit var adapter: ArrayAdapter<String>
     private lateinit var locationGlobalMy: String
     private lateinit var locationGlobalFin: String
     private val addressList = mutableListOf<String>()
+    private lateinit var uid: String
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val uid = Utils.getUidFromSharedPreferences(this)
+
+
+        if (uid != null) {
+            // используем UID
+            Log.d("AddressActivity", "UID: $uid")
+        } else {
+            // Если UID не найден, например, перенаправляем на экран логина
+            Toast.makeText(this, "Пожалуйста, войдите снова", Toast.LENGTH_SHORT).show()
+        }
+        Log.d("AddressActivity", "Полученный USER_ID: $uid") // Добавь лог для проверки
+
         locationGlobalMy = "-999"
         locationGlobalFin = "-999"
         //for my location
@@ -234,7 +249,6 @@ class AddressActivity : AppCompatActivity() {
                 )
             makeRouteActivity.putExtra("selfLocation", locationGlobalMy)
             makeRouteActivity.putExtra("finLocation", locationGlobalFin)
-
             startActivity(makeRouteActivity)
         } catch (e: Exception) {
             Log.d("Intent", "Ошибка при создании Intent: ${e.toString()}")

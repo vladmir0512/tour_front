@@ -2,6 +2,7 @@ package com.bazaroff_alexey.newroutes
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
@@ -82,5 +83,21 @@ object Utils {
         }, 5000)
     }
 
+    fun getUidFromSharedPreferences(context: Context): String? {
+        val sharedPreferences: SharedPreferences =
+            context.getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString(
+            "UID",
+            null
+        ) // Возвращает UID или null, если он не найден
+    }
+
+    fun clearUidFromSharedPreferences(context: Context) {
+        val sharedPreferences: SharedPreferences =
+            context.getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.remove("UID")
+        editor.apply()
+    }
 
 }
