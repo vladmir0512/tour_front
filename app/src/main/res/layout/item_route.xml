@@ -44,5 +44,14 @@
             android:textSize="14sp"
             android:layout_marginTop="4dp" />
 
+        <TextView
+            android:id="@+id/tvComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:visibility="gone"
+            android:paddingTop="4dp"
+            android:text="Комментарий будет здесь" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

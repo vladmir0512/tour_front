@@ -1,7 +1,6 @@
 package com.bazaroff_alexey.newroutes
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,8 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
         val routeTitle: TextView = view.findViewById(R.id.tvRouteTitle)
         val commentButton: Button = view.findViewById(R.id.btnAddComment)
         val ratingBar: RatingBar = view.findViewById(R.id.ratingBar)
-
+        val commentText: TextView =
+            view.findViewById(R.id.tvComment)
 
     }
 
@@ -37,8 +37,18 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
         holder.routeTitle.text = route.name
         holder.ratingBar.rating = route.rating.toFloat()
 
+        // Показываем комментарий, если он есть
+        if (route.comment.isNotEmpty()) {
+            holder.commentText.text = "Комментарий: ${route.comment}"
+            holder.commentText.visibility = View.VISIBLE
+        } else {
+            holder.commentText.visibility = View.GONE
+        }
         holder.commentButton.setOnClickListener {
-            showCommentDialog(holder.itemView.context, route)
+            showCommentDialog(
+                holder.itemView.context, route,
+                commentTextView = holder.commentText
+            )
         }
 
         // Обработка изменения рейтинга
@@ -69,7 +79,7 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
         })
     }
 
-    private fun showCommentDialog(context: Context, route: Route) {
+    private fun showCommentDialog(context: Context, route: Route, commentTextView: TextView) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Добавить комментарий")
 
@@ -80,7 +90,7 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
         builder.setPositiveButton("Добавить") { _, _ ->
             val commentText = input.text.toString()
             if (commentText.isNotEmpty()) {
-                addComment(route.id, commentText)
+                addComment(route.id, commentText, commentTextView)
             } else {
                 Toast.makeText(context, "Комментарий не может быть пустым", Toast.LENGTH_SHORT)
                     .show()
@@ -94,7 +104,8 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
         builder.show()
     }
 
-    private fun addComment(routeId: Int, comment: String) {
+
+    private fun addComment(routeId: Int, comment: String, commentTextView: TextView) {
         val request = CommentRequest(routeId, comment)
         val call = RetrofitAPI.instance.addComment(request)
 
@@ -104,17 +115,32 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
                 response: Response<CommentResponse>
             ) {
                 if (response.isSuccessful) {
-                    Log.d("HistoryRouteActivity", "Комментарий добавлен!")
+                    Toast.makeText(
+                        commentTextView.context,
+                        "Комментарий добавлен!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    commentTextView.text = "Комментарий: $comment"
+                    commentTextView.visibility = View.VISIBLE
                 } else {
-                    Log.d("HistoryRouteActivity", "Ошибка отправки комментария")
+                    Toast.makeText(
+                        commentTextView.context,
+                        "Ошибка отправки комментария",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
-                Log.d("HistoryRouteActivity", "Ошибка сети: ${t.message}")
+                Toast.makeText(
+                    commentTextView.context,
+                    "Ошибка сети: ${t.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
+
 
     override fun getItemCount(): Int = routes.size
 }
