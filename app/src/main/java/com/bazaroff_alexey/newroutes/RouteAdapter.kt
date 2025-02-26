@@ -1,11 +1,16 @@
 package com.bazaroff_alexey.newroutes
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
@@ -33,7 +38,7 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
         holder.ratingBar.rating = route.rating.toFloat()
 
         holder.commentButton.setOnClickListener {
-            onCommentClick(route)
+            showCommentDialog(holder.itemView.context, route)
         }
 
         // Обработка изменения рейтинга
@@ -64,6 +69,52 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
         })
     }
 
+    private fun showCommentDialog(context: Context, route: Route) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Добавить комментарий")
+
+        val input = EditText(context)
+        input.hint = "Введите ваш комментарий"
+        builder.setView(input)
+
+        builder.setPositiveButton("Добавить") { _, _ ->
+            val commentText = input.text.toString()
+            if (commentText.isNotEmpty()) {
+                addComment(route.id, commentText)
+            } else {
+                Toast.makeText(context, "Комментарий не может быть пустым", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+        builder.setNegativeButton("Отмена") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        builder.show()
+    }
+
+    private fun addComment(routeId: Int, comment: String) {
+        val request = CommentRequest(routeId, comment)
+        val call = RetrofitAPI.instance.addComment(request)
+
+        call.enqueue(object : Callback<CommentResponse> {
+            override fun onResponse(
+                call: Call<CommentResponse>,
+                response: Response<CommentResponse>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("HistoryRouteActivity", "Комментарий добавлен!")
+                } else {
+                    Log.d("HistoryRouteActivity", "Ошибка отправки комментария")
+                }
+            }
+
+            override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
+                Log.d("HistoryRouteActivity", "Ошибка сети: ${t.message}")
+            }
+        })
+    }
 
     override fun getItemCount(): Int = routes.size
 }

@@ -60,3 +60,12 @@ data class RatingRequest(
 data class RatingResponse(
     val message: String
 )
+
+data class CommentRequest(
+    val route_id: Int,
+    val comment: String
+)
+
+data class CommentResponse(
+    val message: String
+)

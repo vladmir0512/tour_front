@@ -39,4 +39,7 @@ interface ApiService {
     @POST("/api/users/routes/update-rating/")
     fun updateRouteRating(@Body ratingRequest: RatingRequest): Call<RatingResponse>
 
+    @POST("/api/users/routes/add-comment/")
+    fun addComment(@Body commentRequest: CommentRequest): Call<CommentResponse>
+
 }
