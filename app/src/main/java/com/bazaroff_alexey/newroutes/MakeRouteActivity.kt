@@ -7,17 +7,14 @@ import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 
 
-class MakeRouteActivity : AppCompatActivity() {
+class MakeRouteActivity : BaseActivity() {
 
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
-        val isLargeText = sharedPreferences.getBoolean("largeText", false)
-        setTheme(if (isLargeText) R.style.LargeFontTheme else R.style.NormalFontTheme)
 
         super.onCreate(savedInstanceState)
         Log.d("Intent", "Попали в MakeRouteActivity")

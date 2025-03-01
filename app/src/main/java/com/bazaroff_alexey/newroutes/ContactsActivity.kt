@@ -3,15 +3,12 @@ package com.bazaroff_alexey.newroutes
 import android.content.Context
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class ContactsActivity : AppCompatActivity() {
+class ContactsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
-        val isLargeText = sharedPreferences.getBoolean("largeText", false)
-        setTheme(if (isLargeText) R.style.LargeFontTheme else R.style.NormalFontTheme)
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

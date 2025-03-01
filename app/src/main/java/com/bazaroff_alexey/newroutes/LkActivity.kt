@@ -15,10 +15,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import okhttp3.MediaType
@@ -31,7 +28,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 
-class LkActivity : AppCompatActivity() {
+class LkActivity : BaseActivity() {
 
     private lateinit var avatarImageView: ImageView
     private lateinit var emailTextView: TextView
@@ -42,31 +39,29 @@ class LkActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n", "CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
-        val isLargeText = sharedPreferences.getBoolean("largeText", false)
-        setTheme(if (isLargeText) R.style.LargeFontTheme else R.style.NormalFontTheme)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lk)
-// Указываем переменные, введенные пользователем из EditText
+        // Указываем переменные, введенные пользователем из EditText
         // Поля ввода
-        val uid = Utils.getUidFromSharedPreferences(this)
 
-        if (uid != null) {
+
+        val userId = Utils.getUidFromSharedPreferences(this)
+
+        if (userId != null) {
             // используем UID
-            Log.d("LkActivity", "UID: $uid")
+            Log.d("LkActivity", "UID: $userId")
         } else {
             // Если UID не найден, например, перенаправляем на экран логина
             Toast.makeText(this, "Пожалуйста, войдите снова", Toast.LENGTH_SHORT).show()
         }
 
-        val userEmail =
-            intent.getStringExtra("email") // Используйте тот же ключ, что и в LoginActivity
-
+        val userEmail = Utils.getEmailFromSharedPreferences(this)
         // Кнопки
         val exit = findViewById<Button>(R.id.exit);
         val makeRoute = findViewById<Button>(R.id.makeRoute);
         val historyRoute = findViewById<Button>(R.id.historyRoute);
-        val preference = findViewById<Button>(R.id.preference);
+        val preference = findViewById<Button>(R.id.preferenceId);
         val tech = findViewById<Button>(R.id.tech);
         val contacts = findViewById<Button>(R.id.contacts);
         val privacyPolicy = findViewById<ImageView>(R.id.privacyPolicy);
@@ -77,14 +72,10 @@ class LkActivity : AppCompatActivity() {
         avatarImageView = findViewById(R.id.avatar)
         emailTextView = findViewById(R.id.titleLk)
 
-        userId = intent.getStringExtra("user_id") ?: "Неизвестный"
-        emailTextView.text = intent.getStringExtra("email") ?: "Неизвестный"
+        emailTextView.text =
+            intent.getStringExtra("email") ?: Utils.getEmailFromSharedPreferences(this)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.lk)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
 
 
         exit.setOnClickListener() {
@@ -95,7 +86,7 @@ class LkActivity : AppCompatActivity() {
             Log.d("LkActivity", "Передача userId: $userId")
 
             val addressActivity = Intent(this, AddressActivity::class.java)
-            addressActivity.putExtra("USER_ID", uid) // убедись, что userId - это Int
+            addressActivity.putExtra("USER_ID", userId) // убедись, что userId - это Int
             startActivity(addressActivity)
 
         }
@@ -105,9 +96,19 @@ class LkActivity : AppCompatActivity() {
             startActivity(historyRoutes)
         }
         preference.setOnClickListener() {
-            // Скачок на MekeRoute
-            val preferenceActivity = Intent(this, PreferencesActivity::class.java)
-            startActivity(preferenceActivity)
+
+            if (userId.isNullOrEmpty()) {
+                Log.e("LkActivity", "Ошибка: uid пустой!")
+            } else {
+                Log.d("LkActivity", "Передача uid: $userId в PreferencesActivity")
+                val preferenceActivity = Intent(this, PreferencesActivity::class.java)
+                preferenceActivity.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+
+                preferenceActivity.putExtra("userId", userId)
+                startActivity(preferenceActivity)
+            }
+
         }
         tech.setOnClickListener() {
             Toast.makeText(this, "Техническая поддержка.", Toast.LENGTH_SHORT).show();
@@ -123,7 +124,11 @@ class LkActivity : AppCompatActivity() {
         }
         Log.d("LkActivity", "USER_ID: $userId")
 
-        loadUserAvatar(userId)
+        if (userId != null) {
+            loadUserAvatar(userId)
+        } else {
+            Log.d("LkActivity", "userId: ${userId}")
+        }
 
         avatarImageView.setOnClickListener {
             requestPermissionAndOpenGallery()
@@ -131,12 +136,10 @@ class LkActivity : AppCompatActivity() {
     }
 
     private fun updateAvatarUI(avatarUrl: String?) {
-        val fixedAvatarUrl = avatarUrl?.replace("localhost", "10.0.2.2") // для эмулятора
-
-        Log.d("LkActivity", "Final Avatar URL: $fixedAvatarUrl") // Проверяем URL
+        Log.d("LkActivity", "Final Avatar URL: $avatarUrl") // Проверяем URL
 
         Glide.with(this)
-            .load(fixedAvatarUrl)
+            .load(avatarUrl)
             .placeholder(R.drawable.placeholder_avatar)
             .error(R.mipmap.avatar)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -205,6 +208,7 @@ class LkActivity : AppCompatActivity() {
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
@@ -219,6 +223,7 @@ class LkActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun uriToFile(uri: Uri): File? {
         return try {
@@ -262,4 +267,15 @@ class LkActivity : AppCompatActivity() {
                 }
             })
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        val updateTheme = intent.getBooleanExtra("updateTheme", false)
+//
+//        if (updateTheme) {
+//            intent.putExtra("updateTheme", false) // Сбрасываем флаг перед recreate()
+//            recreate()
+//        }
+//    }
+
 }

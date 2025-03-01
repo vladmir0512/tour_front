@@ -88,9 +88,18 @@ object Utils {
         val sharedPreferences: SharedPreferences =
             context.getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
         return sharedPreferences.getString(
-            "UID",
+            "firebaseAuthRes",
             null
         ) // Возвращает UID или null, если он не найден
+    }
+
+    fun getEmailFromSharedPreferences(context: Context): String? {
+        val sharedPreferences: SharedPreferences =
+            context.getSharedPreferences("userEmail", Context.MODE_PRIVATE)
+        return sharedPreferences.getString(
+            "firebaseEmail",
+            null
+        ) // Возвращает email или null, если он не найден
     }
 
     fun clearUidFromSharedPreferences(context: Context) {

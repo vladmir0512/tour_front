@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import com.bazaroff_alexey.newroutes.databinding.ActivityAdressBinding
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -26,7 +25,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class AddressActivity : AppCompatActivity() {
+class AddressActivity : BaseActivity() {
     //variables for my location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var binding: ActivityAdressBinding
@@ -43,8 +42,6 @@ class AddressActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
-        val isLargeText = sharedPreferences.getBoolean("largeText", false)
-        setTheme(if (isLargeText) R.style.LargeFontTheme else R.style.NormalFontTheme)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 

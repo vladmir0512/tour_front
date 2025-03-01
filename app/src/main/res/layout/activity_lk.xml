@@ -107,13 +107,14 @@
             app:layout_constraintTop_toBottomOf="@+id/makeRoute" />
 
         <Button
-            android:id="@+id/preference"
+            android:id="@+id/preferenceId"
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
             android:layout_below="@id/historyRoute"
             android:text="Настройки"
             android:textSize="12sp"
+            android:layout_marginTop="5sp"
             app:layout_constraintBottom_toTopOf="@+id/contacts"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tech"
@@ -141,6 +142,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/preference" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import org.json.JSONObject
@@ -20,13 +19,11 @@ import retrofit2.Response
 import java.util.Locale
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
-        val isLargeText = sharedPreferences.getBoolean("largeText", false)
-        setTheme(if (isLargeText) R.style.LargeFontTheme else R.style.NormalFontTheme)
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -159,6 +156,7 @@ class LoginActivity : AppCompatActivity() {
         lkActivity.putExtra("user_id", firebaseAuthResponse.localId) // Добавляем user_id!
         lkActivity.putExtra("avatar_url", firebaseAuthResponse.avatarUrl) // Добавляем URL аватара
         saveUidToSharedPreferences(this, firebaseAuthResponse.localId)
+        saveEmailToSharedPreferences(this, firebaseAuthResponse.email)
         startActivity(lkActivity)
         finish()
     }
@@ -169,6 +167,14 @@ fun saveUidToSharedPreferences(context: Context, uid: String) {
     val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
     val editor: SharedPreferences.Editor = sharedPreferences.edit()
-    editor.putString("UID", uid) // Сохраняем UID в SharedPreferences
+    editor.putString("firebaseAuthRes", uid) // Сохраняем UID в SharedPreferences
+    editor.apply()
+}
+
+fun saveEmailToSharedPreferences(context: Context, email: String) {
+    val sharedPreferences: SharedPreferences =
+        context.getSharedPreferences("userEmail", Context.MODE_PRIVATE)
+    val editor: SharedPreferences.Editor = sharedPreferences.edit()
+    editor.putString("firebaseEmail", email) // Сохраняем UID в SharedPreferences
     editor.apply()
 }

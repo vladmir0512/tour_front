@@ -57,4 +57,11 @@
         android:layout_height="wrap_content"
         android:text="Режим высокой контрастности" />
 
+    <TextView
+        android:id="@+id/txtToLk"
+        android:layout_marginTop="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Вернуться в личный кабинет"
+        android:layout_gravity="center" />
 </LinearLayout>
