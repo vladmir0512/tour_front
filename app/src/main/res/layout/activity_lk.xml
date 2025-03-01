@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout tools:layout_editor_absoluteY="56dp"
-    android:background="@color/bg"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     tools:context=".LkActivity"
     android:id="@+id/lk"
+
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Button
+
         android:id="@+id/exit"
-        style="@style/Widget.AppCompat.Button"
         android:layout_width="324dp"
         android:layout_height="48dp"
-        android:background="#630000"
         android:text="Выйти"
-
-        android:textColor="@color/col_btn_RegText"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,6 +24,7 @@
         app:layout_constraintVertical_bias="0.975" />
 
     <ImageView
+
         android:id="@+id/avatar"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
@@ -57,12 +55,12 @@
 
     <TextView
         android:id="@+id/titleLk"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:gravity="center"
         android:text="Личный кабинет\n \'username\'"
-        android:textColor="@color/col_btn_RegText"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,8 +69,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.067" />
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        tools:layout_editor_absoluteY="56dp"
         android:id="@+id/relativeLayout"
+
         android:layout_width="163dp"
         android:layout_height="276dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,57 +84,63 @@
 
         <Button
             android:id="@+id/makeRoute"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:background="@color/bel"
             android:text="Проложить маршрут"
-            android:textColor="@color/col_btn_RegText"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/historyRoute"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/makeRoute"
-            android:layout_marginTop="8dp"
-            android:background="@color/bel"
             android:text="История маршрутов"
-            android:textColor="@color/col_btn_RegText"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/makeRoute" />
 
         <Button
             android:id="@+id/preference"
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:layout_below="@id/historyRoute"
-            android:layout_marginTop="10dp"
-            android:background="@color/bel"
             android:text="Настройки"
-            android:textColor="@color/col_btn_RegText"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/contacts"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tech"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/tech"
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
             android:layout_below="@id/preference"
-            android:layout_marginTop="8dp"
-            android:background="@color/bel"
             android:text="Тех.поддержка"
-            android:textColor="@color/col_btn_RegText"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/historyRoute" />
 
         <Button
             android:id="@+id/contacts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="162dp"
+            android:layout_height="51dp"
             android:layout_below="@id/tech"
-            android:layout_marginTop="8dp"
-            android:background="@color/bel"
+            android:layout_marginBottom="28dp"
             android:text="Контакты"
-            android:textColor="@color/col_btn_RegText"
-            android:textSize="12sp" />
-    </RelativeLayout>
-
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

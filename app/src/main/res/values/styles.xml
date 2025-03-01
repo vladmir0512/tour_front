@@ -14,4 +14,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- Обычная тема -->
+    <style name="NormalFontTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- Тема с увеличенным шрифтом -->
+    <style name="LargeFontTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+
 </resources>

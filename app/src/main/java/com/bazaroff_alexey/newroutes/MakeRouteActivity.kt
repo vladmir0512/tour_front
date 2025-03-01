@@ -1,6 +1,7 @@
 package com.bazaroff_alexey.newroutes
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.webkit.WebView
@@ -14,6 +15,10 @@ class MakeRouteActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        val isLargeText = sharedPreferences.getBoolean("largeText", false)
+        setTheme(if (isLargeText) R.style.LargeFontTheme else R.style.NormalFontTheme)
+
         super.onCreate(savedInstanceState)
         Log.d("Intent", "Попали в MakeRouteActivity")
 
@@ -35,9 +40,8 @@ class MakeRouteActivity : AppCompatActivity() {
         Log.d("Intent", "myLocation: ${myLocation}")
         Log.d("Intent", "finLocation: ${finLocation}")
         // Формируем URL с userId
-        val url =
-            "http://10.0.2.2:8000/route/${uid}/${myLocation},${finLocation}?"
-        // val url = "http://89.104.66.155/route/${myLocation},${finLocation}?userId=${userId}"
+        val url = "http://10.0.2.2:8000/route/${uid}/${myLocation},${finLocation}"
+        //val url = "http://89.104.66.155/route/${uid}/${myLocation},${finLocation}"
 
         Log.d("Intent", "Загрузка URL: $url")
         val webView = findViewById<WebView>(R.id.webview)

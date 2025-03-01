@@ -2,21 +2,21 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg"
     tools:context=".RegisterActivity">
 
     <TextView
         android:id="@+id/textView"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="170dp"
         android:text="@string/create_acc"
-        android:textColor="@color/white"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,6 +28,7 @@
 
     <EditText
         android:id="@+id/userLogin"
+
         android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -36,8 +37,6 @@
         android:ems="10"
         android:hint="Логин"
         android:inputType="text"
-        android:textColor="#fdfdfd"
-        android:textColorHint="#6a6a6a"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -47,6 +46,7 @@
 
     <EditText
         android:id="@+id/userEmail"
+
         android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -55,8 +55,6 @@
         android:ems="10"
         android:hint="@string/input_email"
         android:inputType="textEmailAddress"
-        android:textColor="#fdfdfd"
-        android:textColorHint="#6a6a6a"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -66,6 +64,7 @@
 
     <EditText
         android:id="@+id/userPass"
+
         android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -74,8 +73,7 @@
         android:ems="10"
         android:hint="@string/input_pass"
         android:inputType="textPassword"
-        android:textColor="#fdfdfd"
-        android:textColorHint="#6a6a6a"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -85,11 +83,11 @@
 
     <CheckBox
         android:id="@+id/checkbox_privacy_policy"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="116dp"
         android:text="Я ознакомлен с политикой конфиденциальности"
-        android:textColor="#6a6a6a"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.53"
@@ -98,11 +96,11 @@
 
     <CheckBox
         android:id="@+id/checkbox_data_processing"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="Я согласен на обработку персональных данных"
-        android:textColor="#6a6a6a"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -113,13 +111,12 @@
 
     <Button
         android:id="@+id/btnReg"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/button_selector"
-        android:backgroundTint="@color/bel"
         android:text="@string/btnReg"
-        android:textColor="@color/col_btn_RegText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -128,13 +125,13 @@
 
     <TextView
         android:id="@+id/txtHaveAcc"
+
         android:layout_width="220dp"
         android:layout_height="20dp"
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
         android:text="@string/haveAcc"
         android:textAlignment="center"
-        android:textColor="#6a6a6a"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

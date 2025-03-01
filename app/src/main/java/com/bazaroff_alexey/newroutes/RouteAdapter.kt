@@ -1,6 +1,8 @@
 package com.bazaroff_alexey.newroutes
 
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +30,8 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RouteViewHolder {
+
+
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_route, parent, false)
         return RouteViewHolder(view)
     }
@@ -44,6 +48,21 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
         } else {
             holder.commentText.visibility = View.GONE
         }
+        holder.routeTitle.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, MakeRouteActivity::class.java).apply {
+                Log.d("RouteAdapter", "Coords: ${route.coords}") // Отладочный вывод
+                val coords = route.coords.split(",", limit = 4) // Разбиваем строку на координаты
+                val loc1 = "${coords[0]},${coords[1]}" // Первая широта
+                val loc2 = "${coords[2]},${coords[3]}" // Первая широта
+
+                Log.d("RouteAdapter", "loc1: ${loc1}, loc2: ${loc2}") // Отладочный вывод
+                putExtra("selfLocation", loc1) // Передаем широту
+                putExtra("finLocation", loc2) // Передаем долготу
+            }
+            context.startActivity(intent)
+
+        }
         holder.commentButton.setOnClickListener {
             showCommentDialog(
                 holder.itemView.context, route,
@@ -54,6 +73,7 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
         // Обработка изменения рейтинга
         holder.ratingBar.setOnRatingBarChangeListener { _, newRating, _ ->
             updateRouteRating(route.id, newRating.toInt())
+            Log.d("RouteAdater", "Coords: ${route.coords}")
         }
     }
 

@@ -2,97 +2,85 @@ package com.bazaroff_alexey.newroutes
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 
 class PreferencesActivity : AppCompatActivity() {
 
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var highContrastButton: Button
-    private lateinit var highContrastText: TextView
+    private lateinit var fontSizeButton: Button
+    private lateinit var radioLightTheme: RadioButton
+    private lateinit var radioDarkTheme: RadioButton
+    private lateinit var themeRadioGroup: RadioGroup
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
+        sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+
+        // Устанавливаем тему перед setContentView
+        applyTheme()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preferences)
 
-        // Инициализация SharedPreferences
-        sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        // Инициализация UI элементов
+        fontSizeButton = findViewById(R.id.fontSizeButton)
+        radioLightTheme = findViewById(R.id.radioLightTheme)
+        radioDarkTheme = findViewById(R.id.radioDarkTheme)
+        themeRadioGroup = findViewById(R.id.themeRadioGroup)
 
-        // Получение текущей темы
-        val currentTheme = sharedPreferences.getInt("theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-
-        // Установка радиокнопки по умолчанию
-        val themeRadioGroup = findViewById<RadioGroup>(R.id.themeRadioGroup)
+        // Загружаем текущую тему в UI
+        val currentTheme =
+            sharedPreferences.getInt("theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         when (currentTheme) {
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> {
-                themeRadioGroup.check(R.id.radioSystemTheme)
-            }
-            AppCompatDelegate.MODE_NIGHT_YES -> {
-                themeRadioGroup.check(R.id.radioDarkTheme)
-            }
-            AppCompatDelegate.MODE_NIGHT_NO -> {
-                themeRadioGroup.check(R.id.radioLightTheme)
-            }
+            AppCompatDelegate.MODE_NIGHT_YES -> radioDarkTheme.isChecked = true
+            AppCompatDelegate.MODE_NIGHT_NO -> radioLightTheme.isChecked = true
         }
 
-        // Обработка выбора темы
+        // Обработчик выбора темы
         themeRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.radioSystemTheme -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                }
-                R.id.radioDarkTheme -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                }
                 R.id.radioLightTheme -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    sharedPreferences.edit().putInt("theme", AppCompatDelegate.MODE_NIGHT_NO)
+                        .apply()
+                }
+
+                R.id.radioDarkTheme -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    sharedPreferences.edit().putInt("theme", AppCompatDelegate.MODE_NIGHT_YES)
+                        .apply()
                 }
             }
-            // Сохранение выбранной темы
-            with(sharedPreferences.edit()) {
-                putInt("theme", AppCompatDelegate.getDefaultNightMode())
-                apply()
-            }
+            recreate() // Перезапуск активности для применения новой темы
         }
 
-        // Настройка для слабовидящих
-        highContrastButton = findViewById(R.id.highContrastButton)
-        highContrastText = findViewById(R.id.highContrastText)
-
-        // Проверяем состояние режима высокой контрастности
-        val highContrastEnabled = sharedPreferences.getBoolean("highContrast", false)
-        updateHighContrastMode(highContrastEnabled)
-
-        // Обработка клика на кнопку
-        highContrastButton.setOnClickListener {
-            // Меняем состояние
-            val newHighContrast = !highContrastEnabled
-            updateHighContrastMode(newHighContrast)
-            // Сохраняем новое состояние
-            with(sharedPreferences.edit()) {
-                putBoolean("highContrast", newHighContrast)
-                apply()
-            }
+        // Изменение размера шрифта
+        val isLargeText = sharedPreferences.getBoolean("largeText", false)
+        updateFontSizeButtonText(isLargeText)
+        fontSizeButton.setOnClickListener {
+            val newSize = !sharedPreferences.getBoolean("largeText", false)
+            sharedPreferences.edit().putBoolean("largeText", newSize).apply()
+            recreate() // Перезапуск активности
         }
     }
 
-    // Функция для обновления режима высокой контрастности
-    private fun updateHighContrastMode(enabled: Boolean) {
-        if (enabled) {
-            // Включите режим высокой контрастности
-            highContrastText.setTextColor(resources.getColor(R.color.black)) // Черный текст
-            highContrastText.setBackgroundColor(resources.getColor(R.color.white)) // Белый фон
-            //highContrastButton.setText(R.string.disable_high_contrast) // Измените текст кнопки
+    private fun applyTheme() {
+        val theme = sharedPreferences.getInt("theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        AppCompatDelegate.setDefaultNightMode(theme) // Устанавливаем тему
+    }
+
+    private fun updateFontSizeButtonText(isLargeText: Boolean) {
+        fontSizeButton.text = if (isLargeText) {
+            "Уменьшить шрифт"
         } else {
-            // Отключите режим высокой контрастности
-            highContrastText.setTextColor(resources.getColor(R.color.white)) // Белый текст
-            highContrastText.setBackgroundColor(resources.getColor(R.color.black)) // Черный фон
-           // highContrastButton.setText(R.string.enable_high_contrast) // Измените текст кнопки
+            "Увеличить шрифт"
         }
     }
 }

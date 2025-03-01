@@ -1,5 +1,6 @@
 package com.bazaroff_alexey.newroutes
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -20,7 +21,9 @@ class HistoryRoutesActivity : AppCompatActivity() {
     private val apiService = RetrofitAPI.instance.getRoutes()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        val isLargeText = sharedPreferences.getBoolean("largeText", false)
+        setTheme(if (isLargeText) R.style.LargeFontTheme else R.style.NormalFontTheme)
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

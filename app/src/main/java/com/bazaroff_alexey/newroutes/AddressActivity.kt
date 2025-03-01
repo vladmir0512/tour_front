@@ -1,6 +1,7 @@
 package com.bazaroff_alexey.newroutes
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
 import android.os.Bundle
@@ -41,6 +42,9 @@ class AddressActivity : AppCompatActivity() {
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        val isLargeText = sharedPreferences.getBoolean("largeText", false)
+        setTheme(if (isLargeText) R.style.LargeFontTheme else R.style.NormalFontTheme)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 

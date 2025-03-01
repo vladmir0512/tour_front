@@ -20,16 +20,20 @@ import java.util.Locale
 
 class RegisterActivity : AppCompatActivity() {
 
+    private lateinit var checkboxPrivacyPolicy: CheckBox
+    private lateinit var checkboxDataProcessing: CheckBox
 
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register)
         Utils.clearUidFromSharedPreferences(this)
         // Чекбоксы
-        val checkboxPrivacyPolicy: CheckBox = findViewById<CheckBox>(R.id.checkbox_privacy_policy)
-        val checkboxDataProcessing: CheckBox = findViewById<CheckBox>(R.id.checkbox_data_processing)
+        checkboxPrivacyPolicy = findViewById<CheckBox>(R.id.checkbox_privacy_policy)
+        checkboxDataProcessing = findViewById<CheckBox>(R.id.checkbox_data_processing)
 
 
         // Указываем переменные, введенные пользователем из EditText
@@ -51,15 +55,23 @@ class RegisterActivity : AppCompatActivity() {
             }
         checkboxPrivacyPolicy.setOnCheckedChangeListener(checkChangeListener)
         checkboxDataProcessing.setOnCheckedChangeListener(checkChangeListener)
-        checkboxPrivacyPolicy.setOnClickListener() {
-            checkboxPrivacyPolicy.isChecked = true // Сохраняем состояние
-            checkboxPrivacyPolicy.isEnabled = false // Делаем чекбокс неактивным
-            toPrivacyPolicy()
+        checkboxPrivacyPolicy.setOnClickListener {
+            val intent = Intent(this, PrivacyPolicyActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE_PRIVACY)
         }
         // "Войти" будет другим цветом
         Utils.highlightText(txtHaveAcc, 18, 24)
 
+
+
         onClickListeners(btnReg, txtHaveAcc, userEmail, userPass, checkboxPrivacyPolicy)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_PRIVACY && resultCode == RESULT_OK) {
+            checkboxPrivacyPolicy.isChecked = true
+        }
     }
 
     private fun onClickListeners(
@@ -170,7 +182,9 @@ class RegisterActivity : AppCompatActivity() {
         startActivity(privacyPolicy)
     }
 
-
+    companion object {
+        private const val REQUEST_CODE_PRIVACY = 1
+    }
 }
 
 

@@ -2,6 +2,7 @@ package com.bazaroff_alexey.newroutes
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -40,6 +41,10 @@ class LkActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n", "CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        val isLargeText = sharedPreferences.getBoolean("largeText", false)
+        setTheme(if (isLargeText) R.style.LargeFontTheme else R.style.NormalFontTheme)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lk)
 // Указываем переменные, введенные пользователем из EditText

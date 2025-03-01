@@ -18,8 +18,9 @@ object Utils {
         val spannableStringBuilder = SpannableStringBuilder()
 
         spannableStringBuilder.append(word.text);
+
         spannableStringBuilder.setSpan(
-            ForegroundColorSpan(Color.WHITE),
+            ForegroundColorSpan(Color.GRAY),
             startSymbol,
             endSymbol,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE

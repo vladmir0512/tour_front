@@ -17,6 +17,9 @@
     <color name="grey">#B5B5B5</color>
     <color name="red">#FF0000</color>
     <color name="rded">#94E9E9E9</color>
-
+    <color name="high_contrast_text">#000000</color>
+    <color name="high_contrast_background">#A5A5A5</color>
+    <color name="default_text">#2B2B2B</color>
+    <color name="default_background">#FFFFFF</color>
 
 </resources>

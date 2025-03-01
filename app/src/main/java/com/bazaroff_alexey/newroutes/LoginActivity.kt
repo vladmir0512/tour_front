@@ -24,6 +24,10 @@ class LoginActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        val isLargeText = sharedPreferences.getBoolean("largeText", false)
+        setTheme(if (isLargeText) R.style.LargeFontTheme else R.style.NormalFontTheme)
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)

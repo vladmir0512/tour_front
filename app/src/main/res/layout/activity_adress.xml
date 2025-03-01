@@ -5,24 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#201E2B"
+    style="@style/NormalFontTheme"
+
     tools:context=".AddressActivity">
 
 
     <TextView
         android:id="@+id/txtAddAddress"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/txtAddressTitle"
-        android:layout_marginTop="50px"
-        android:textColor="#F0F0F0"
+        android:layout_marginTop="150px"
         android:textSize="25sp"
         android:textStyle="bold" />
 
 
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextView"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints=""
@@ -30,20 +32,17 @@
         android:layout_marginTop="50px"
         android:hint="@string/addressHint"
         android:inputType="textMultiLine"
-        android:textColor="#fdfdfd"
-        android:textColorHint="#6a6a6a"
         android:completionThreshold="1" />
 
 
     <Button
         android:id="@+id/btnAddress"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="60dp"
-        android:backgroundTint="@color/bel"
-        android:text="@string/txtAddressBtn"
-        android:textColor="@color/white" />
+        android:text="@string/txtAddressBtn" />
 
 
 </LinearLayout>

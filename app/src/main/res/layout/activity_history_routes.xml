@@ -4,11 +4,14 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+
     android:padding="16dp"
     android:id="@+id/historyRoutes"
     tools:context=".MakeRouteActivity">
 
     <TextView
+        style="@style/NormalFontTheme"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ИСТОРИЯ МАРШРУТОВ"

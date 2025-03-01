@@ -1,11 +1,13 @@
 <!-- res/layout/activity_privacy_policy.xml -->
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    style="@style/NormalFontTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/contacts"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
