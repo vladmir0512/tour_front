@@ -13,7 +13,8 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ИСТОРИЯ МАРШРУТОВ"
+        android:text="МОИ МАРШРУТЫ"
+        android:layout_marginTop="35sp"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_gravity="center" />

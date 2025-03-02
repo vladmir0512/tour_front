@@ -37,8 +37,8 @@ class MakeRouteActivity : BaseActivity() {
         Log.d("Intent", "myLocation: ${myLocation}")
         Log.d("Intent", "finLocation: ${finLocation}")
         // Формируем URL с userId
-        val url = "http://10.0.2.2:8000/route/${uid}/${myLocation},${finLocation}"
-        //val url = "http://89.104.66.155/route/${uid}/${myLocation},${finLocation}"
+        //val url = "http://10.0.2.2:8000/route/${uid}/${myLocation},${finLocation}"
+        val url = "http://89.104.66.155/route/${uid}/${myLocation},${finLocation}"
 
         Log.d("Intent", "Загрузка URL: $url")
         val webView = findViewById<WebView>(R.id.webview)

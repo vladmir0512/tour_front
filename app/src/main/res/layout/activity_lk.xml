@@ -99,7 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/makeRoute"
-            android:text="История маршрутов"
+            android:text="Мои маршруты"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -123,10 +123,8 @@
         <Button
             android:id="@+id/tech"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
-            android:layout_below="@id/preference"
-            android:text="Тех.поддержка"
+            android:text="Последние маршруты"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/historyRoute" />
@@ -143,6 +141,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/preference" />
+            app:layout_constraintTop_toBottomOf="@id/preferenceId" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

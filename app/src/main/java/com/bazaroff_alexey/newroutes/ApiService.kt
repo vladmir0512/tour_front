@@ -8,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -36,10 +37,14 @@ interface ApiService {
     @GET("/api/users/routes/")
     fun getRoutes(): Call<List<Route>>
 
+    @GET("/api/users/{user_id}/routes/")
+    fun getUserRoutes(@Path("user_id") userId: String): Call<List<Route>>
+
     @POST("/api/users/routes/update-rating/")
     fun updateRouteRating(@Body ratingRequest: RatingRequest): Call<RatingResponse>
 
     @POST("/api/users/routes/add-comment/")
     fun addComment(@Body commentRequest: CommentRequest): Call<CommentResponse>
+
 
 }

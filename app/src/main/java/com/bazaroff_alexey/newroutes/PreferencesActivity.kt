@@ -63,7 +63,7 @@ class PreferencesActivity : BaseActivity() {
 
         themeRadioGroup.setOnCheckedChangeListener(null) // Отключаем слушатель
 
-        val currentTheme = sharedPreferences.getInt("theme", AppCompatDelegate.MODE_NIGHT_YES)
+        val currentTheme = sharedPreferences.getInt("theme", AppCompatDelegate.MODE_NIGHT_NO)
         when (currentTheme) {
             AppCompatDelegate.MODE_NIGHT_YES -> radioDarkTheme.isChecked = true
             AppCompatDelegate.MODE_NIGHT_NO -> radioLightTheme.isChecked = true

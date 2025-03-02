@@ -21,9 +21,15 @@ class HistoryRoutesActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
-        
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val userId = Utils.getUidFromSharedPreferences(this)
+        if (userId.isNullOrEmpty()) {
+            Log.e("PreferencesActivity", "Ошибка: UID не передан!")
+        } else {
+            Log.d("PreferencesActivity", "Получен UID: $userId")
+        }
         setContentView(R.layout.activity_history_routes)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.historyRoutes)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -36,12 +42,14 @@ class HistoryRoutesActivity : BaseActivity() {
         recyclerView = findViewById(R.id.recyclerViewRoutes)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        loadRoutes()
+        if (userId != null) {
+            loadRoutes(userId)
+        }
 
     }
 
-    private fun loadRoutes() {
-        RetrofitAPI.instance.getRoutes().enqueue(object : Callback<List<Route>> {
+    private fun loadRoutes(userId: String) {
+        RetrofitAPI.instance.getUserRoutes(userId = userId).enqueue(object : Callback<List<Route>> {
             override fun onResponse(call: Call<List<Route>>, response: Response<List<Route>>) {
                 if (response.isSuccessful) {
                     val routes = response.body() ?: emptyList()
