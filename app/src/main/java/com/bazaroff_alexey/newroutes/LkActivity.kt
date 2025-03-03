@@ -42,11 +42,7 @@ class LkActivity : BaseActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lk)
-        // Указываем переменные, введенные пользователем из EditText
-        // Поля ввода
-
-
-        val userId = Utils.getUidFromSharedPreferences(this)
+        userId = Utils.getUidFromSharedPreferences(this).toString()
 
         if (userId != null) {
             // используем UID

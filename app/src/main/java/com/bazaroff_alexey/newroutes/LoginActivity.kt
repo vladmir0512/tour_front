@@ -96,6 +96,7 @@ class LoginActivity : BaseActivity() {
                                 Log.d("FirebaseAuth", "ID Token: ${firebaseAuthResponse.idToken}")
                                 Log.d("FirebaseAuth", "ID Token: ${firebaseAuthResponse}")
                                 Log.e("FirebaseAuth", firebaseAuthResponse.toString())
+
                                 // Перейти к следующему экрану
                                 toLKActivity(firebaseAuthResponse)
                             }
