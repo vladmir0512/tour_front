@@ -13,14 +13,12 @@ import retrofit2.http.Query
 
 
 interface ApiService {
-    /* FIREBASE AUTH and REGISTRATION */
-    @POST("/api/users/register/") // Укажите правильный путь к вашему API
+    @POST("/api/users/register/")
     fun sendRegister(@Body requestData: RequestData): Call<ResponseData>
 
-    @POST("/api/users/login/") // Укажите правильный путь к вашему API
+    @POST("/api/users/login/")
     fun sendLogin(@Body requestData: RequestData): Call<FirebaseAuthResponse>
 
-    /* SEARCH COORDS (address to coords) */
     @GET("/api/search/")
     fun searchAddress(@Query("query") query: String): Call<AddressResponse>
 

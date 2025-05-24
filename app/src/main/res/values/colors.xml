@@ -7,12 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#00796b</color>
     <color name="colorPrimaryDark">#00695C</color>
     <color name="colorAccent">#FF4081</color>
+
     <color name="col_btn_RegText">#FFFFFFFF</color>
     <color name="col_btn_RegBack">#00000000</color>
-    <color name="bel">#505073</color>
+    <color name="bel">#BF000000</color>
     <color name="bg">#201E2B</color>
     <color name="grey">#B5B5B5</color>
     <color name="red">#FF0000</color>
@@ -21,5 +21,14 @@
     <color name="high_contrast_background">#A5A5A5</color>
     <color name="default_text">#2B2B2B</color>
     <color name="default_background">#FFFFFF</color>
+
+    <color name="colorPrimary">#BFEFEFEF</color>
+    <color name="colorPrimaryVariant">@color/avatar_background</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorOnnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#FF4081</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorSurface">#FFFFFF</color> <!-- Цвет поверхности -->
+    <color name="colorOnSurface">#000000</color> <!-- Цвет текста на поверхности -->
 
 </resources>

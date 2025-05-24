@@ -3,98 +3,114 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login"
-
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="@drawable/background_light">
 
     <TextView
         android:id="@+id/log_in_title"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="170dp"
-        android:fontFamily="@font/inter_bold"
+        android:fontFamily="@font/ukijdiwani"
+        android:gravity="center"
         android:text="@string/log_in_title"
-
+        android:textColor="@color/colorOnSurface"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/login_userLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.935" />
 
-
-    <EditText
-        android:id="@+id/login_userLogin"
-
-        android:layout_width="220dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="13dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/input_login"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_userLogin_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/ukijdiwani"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/log_in_title"
-        app:layout_constraintVertical_bias="0.002" />
+        app:layout_constraintTop_toBottomOf="@id/log_in_title">
 
-    <EditText
-        android:id="@+id/login_userPass"
-
-        android:layout_width="220dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/input_pass"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_userLogin"
-        app:layout_constraintVertical_bias="0.0" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnLogin"
-
-        android:layout_width="220dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:fontFamily="@font/ukijdiwani"
+        android:gravity="center"
         android:text="@string/btnLog"
+        android:textSize="15sp"
+
+        android:textColor="@color/colorSurface"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_userPass"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.032" />
 
     <TextView
         android:id="@+id/txtDontHaveAcc"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="328dp"
+        android:background="@color/colorPrimary"
+        android:fontFamily="@font/ukijdiwani"
+
         android:text="@string/dontHaveAcc"
         android:textAlignment="center"
+        android:textColor="@color/colorOnSurface"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/login_userLogin"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="100dp"
+        android:background="@color/colorPrimary"
+        android:fontFamily="@font/ukijdiwani"
+        android:hint="@string/input_login"
+        android:textSize="24sp"
+        android:inputType="text"
+        android:textColorHint="@color/colorOnSurface"
+        android:paddingStart="10dp"
+        android:textColor="@color/colorOnSurface"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.233" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/login_userPass"
+        android:layout_width="216dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="100dp"
+        android:background="@color/colorPrimary"
+        android:fontFamily="@font/ukijdiwani"
+        android:textColorHint="@color/colorOnSurface"
+        android:textColor="@color/colorOnSurface"
+        android:textSize="24sp"
+        android:hint="@string/input_pass"
+        android:inputType="textPassword"
+        android:paddingStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_userLogin"
+        app:layout_constraintVertical_bias="0.018" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

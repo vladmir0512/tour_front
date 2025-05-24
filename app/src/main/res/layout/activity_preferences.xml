@@ -55,7 +55,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Режим высокой контрастности" />
+        android:text="Версия для слабовидящих" />
 
     <TextView
         android:id="@+id/txtToLk"

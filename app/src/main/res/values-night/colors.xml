@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/bel</color>
+    <color name="colorPrimaryVariant">#1976D2</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#FF4081</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorSurface">#121212</color> <!-- Цвет поверхности -->
+    <color name="colorOnSurface">#FFFFFF</color> <!-- Цвет текста на поверхности -->
+    <color name="colorOnnPrimary">@color/grey</color>
+
+</resources>

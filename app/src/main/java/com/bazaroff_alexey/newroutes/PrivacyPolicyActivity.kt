@@ -9,23 +9,17 @@ import android.widget.Toast
 class PrivacyPolicyActivity : BaseActivity() {
     private lateinit var btnAcknowledged: Button
     private lateinit var scrollView: ScrollView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
-        
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_privacy_policy)
-
         scrollView = findViewById(R.id.SVokPP)
         btnAcknowledged =
-            findViewById(R.id.btnAcknowledged) // Предполагается, что вы добавите эту кнопку в ваш XML
-
+            findViewById(R.id.btnAcknowledged)
         btnAcknowledged.setOnClickListener {
             setResult(RESULT_OK)
-            finish() // Закрываем активность и передаём результат
+            finish()
         }
         Toast.makeText(this, "Поздравляем с ознакомлением!", Toast.LENGTH_SHORT).show()
-
-
     }
 }

@@ -12,10 +12,9 @@ open class BaseActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
-        //applyFontScale()
-        //applyTheme()
+        applyTheme()
+        super.onCreate(savedInstanceState)
 
 
     }
@@ -23,7 +22,6 @@ open class BaseActivity : AppCompatActivity() {
     private fun applyTheme() {
 
         try {
-            // Ваш код, например, чтение данных из SharedPreferences
             val theme =
                 sharedPreferences.getInt("theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             AppCompatDelegate.setDefaultNightMode(theme)

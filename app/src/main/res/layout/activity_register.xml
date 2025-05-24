@@ -7,45 +7,97 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/background_light"
+
     tools:context=".RegisterActivity">
 
     <TextView
         android:id="@+id/textView"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="@font/ukijdiwani"
         android:text="@string/create_acc"
+        android:textColor="@color/colorOnSurface"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/userLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.444" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/reg_userLogin_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ukijdiwani"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView">
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/reg_userEmail_layout"
+        android:fontFamily="@font/ukijdiwani"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/userLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userEmail">
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/reg_userPass_layout"
+        android:fontFamily="@font/ukijdiwani"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/userEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userPass">
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/userLogin"
-
         android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="100dp"
         android:autofillHints=""
         android:ems="10"
+        android:textSize="25sp"
+
+        android:fontFamily="@font/ukijdiwani"
         android:hint="Логин"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/colorOnSurface"
+        android:paddingStart="10dp"
         android:inputType="text"
+        android:textColorHint="@color/colorOnSurface"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.273" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/userEmail"
+        android:textSize="25sp"
+
+        android:background="@color/colorPrimary"
+        android:paddingStart="10dp"
+        android:textColor="@color/colorOnSurface"
 
         android:layout_width="220dp"
         android:layout_height="50dp"
@@ -53,8 +105,11 @@
         android:layout_marginTop="4dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/input_email"
         android:inputType="textEmailAddress"
+        android:fontFamily="@font/ukijdiwani"
+        android:hint="@string/input_login"
+        android:textColorHint="@color/colorOnSurface"
+        android:layout_marginHorizontal="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -62,8 +117,10 @@
         app:layout_constraintTop_toBottomOf="@+id/userLogin"
         app:layout_constraintVertical_bias="0.008" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/userPass"
+        android:paddingStart="10dp"
+        android:textSize="25sp"
 
         android:layout_width="220dp"
         android:layout_height="50dp"
@@ -71,9 +128,14 @@
         android:layout_marginTop="8dp"
         android:autofillHints=""
         android:ems="10"
+        android:background="@color/colorPrimary"
         android:hint="@string/input_pass"
         android:inputType="textPassword"
+        android:fontFamily="@font/ukijdiwani"
+        android:textColor="@color/colorOnSurface"
 
+        android:textColorHint="@color/colorOnSurface"
+        android:layout_marginHorizontal="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -86,20 +148,29 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="32dp"
+        android:textColor="@color/colorOnSurface"
+        android:fontFamily="@font/ukijdiwani"
+        android:button="@drawable/checkbox_white"
         android:text="Я ознакомлен с политикой конфиденциальности"
         android:textSize="12sp"
+        android:paddingStart="5dp"
+        android:background="@color/colorSurface"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtHaveAcc" />
 
     <CheckBox
         android:id="@+id/checkbox_data_processing"
-
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorOnSurface"
+        android:fontFamily="@font/ukijdiwani"
+        android:background="@color/colorSurface"
+        android:button="@drawable/checkbox_white"
         android:layout_width="wrap_content"
+        android:paddingStart="8dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:text="Я согласен на обработку персональных данных"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -111,11 +182,13 @@
 
     <Button
         android:id="@+id/btnReg"
+        android:textSize="15sp"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/button_selector"
+        android:textColor="@color/colorSurface"
+        android:fontFamily="@font/ukijdiwani"
         android:text="@string/btnReg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -130,6 +203,9 @@
         android:layout_height="20dp"
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
+        android:textColor="@color/colorOnSurface"
+        android:background="@color/colorPrimary"
+        android:fontFamily="@font/ukijdiwani"
         android:text="@string/haveAcc"
         android:textAlignment="center"
         android:textSize="12sp"

@@ -16,9 +16,7 @@ import android.widget.Toast
 object Utils {
     fun highlightText(word: TextView, startSymbol: Int, endSymbol: Int) {
         val spannableStringBuilder = SpannableStringBuilder()
-
         spannableStringBuilder.append(word.text);
-
         spannableStringBuilder.setSpan(
             ForegroundColorSpan(Color.GRAY),
             startSymbol,
@@ -33,8 +31,6 @@ object Utils {
             Toast.makeText(context, "Пожалуйста, заполните все поля", Toast.LENGTH_SHORT).show()
             return false
         }
-
-        // Проверка формата электронной почты
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             Toast.makeText(
                 context,
@@ -43,8 +39,6 @@ object Utils {
             ).show()
             return false
         }
-
-        // Проверка длины пароля
         if (password.length < 6) {
             Toast.makeText(
                 context,
@@ -53,7 +47,6 @@ object Utils {
             ).show()
             return false
         }
-
         return true
     }
 
@@ -61,26 +54,21 @@ object Utils {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Вы действительно хотите выйти?")
         builder.setPositiveButton("Да") { _, _ ->
-            // Закрываем приложение
             Toast.makeText(context, "Спасибо, что вы с нами!", Toast.LENGTH_SHORT).show()
             android.os.Process.killProcess(android.os.Process.myPid())
             System.exit(0)
-
         }
         builder.setNegativeButton("Нет") { dialog, _ ->
             dialog.dismiss()
         }
-
         val dialog = builder.create()
         dialog.show()
-
         val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-        positiveButton.isEnabled = false // Изначально "Да" не активна
-        positiveButton.setBackgroundColor(context.resources.getColor(R.color.grey)) // Серый цвет
-
+        positiveButton.isEnabled = false
+        positiveButton.setBackgroundColor(context.resources.getColor(R.color.grey))
         Handler(Looper.getMainLooper()).postDelayed({
-            positiveButton.isEnabled = true // Делаем "Да" активной через 5 секунд
-            positiveButton.setBackgroundColor(context.resources.getColor(R.color.red)) // Красный цвет
+            positiveButton.isEnabled = true
+            positiveButton.setBackgroundColor(context.resources.getColor(R.color.red))
         }, 5000)
     }
 
@@ -90,7 +78,7 @@ object Utils {
         return sharedPreferences.getString(
             "firebaseAuthRes",
             null
-        ) // Возвращает UID или null, если он не найден
+        )
     }
 
     fun getEmailFromSharedPreferences(context: Context): String? {
@@ -99,7 +87,7 @@ object Utils {
         return sharedPreferences.getString(
             "firebaseEmail",
             null
-        ) // Возвращает email или null, если он не найден
+        )
     }
 
     fun clearUidFromSharedPreferences(context: Context) {
@@ -109,5 +97,4 @@ object Utils {
         editor.remove("UID")
         editor.apply()
     }
-
 }

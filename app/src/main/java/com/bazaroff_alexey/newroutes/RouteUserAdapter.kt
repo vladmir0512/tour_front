@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RouteUserAdapter(private val routes: List<Route>, param: (Any) -> Unit) :
     RecyclerView.Adapter<RouteUserAdapter.RouteViewHolder>() {
-
     class RouteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val routeTitle: TextView = view.findViewById(R.id.tvRouteUserTitle)
         val ratingBar: RatingBar = view.findViewById(R.id.ratingUsersBar)
@@ -30,7 +29,6 @@ class RouteUserAdapter(private val routes: List<Route>, param: (Any) -> Unit) :
         holder.routeTitle.text = route.name
         holder.ratingBar.rating = route.rating.toFloat()
         holder.ratingBar.isEnabled = false
-        // Показываем комментарий, если он есть
         if (route.comment.isNotEmpty()) {
             holder.commentText.text = "Комментарий: ${route.comment}"
             holder.commentText.visibility = View.VISIBLE
@@ -40,17 +38,15 @@ class RouteUserAdapter(private val routes: List<Route>, param: (Any) -> Unit) :
         holder.routeTitle.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, MakeRouteActivity::class.java).apply {
-                Log.d("RouteUserAdapter", "Coords: ${route.coords}") // Отладочный вывод
-                val coords = route.coords.split(",", limit = 4) // Разбиваем строку на координаты
-                val loc1 = "${coords[0]},${coords[1]}" // Первая широта
-                val loc2 = "${coords[2]},${coords[3]}" // Первая широта
-
-                Log.d("RouteUserAdapter", "loc1: ${loc1}, loc2: ${loc2}") // Отладочный вывод
-                putExtra("selfLocation", loc1) // Передаем широту
-                putExtra("finLocation", loc2) // Передаем долготу
+                Log.d("RouteUserAdapter", "Coords: ${route.coords}")
+                val coords = route.coords.split(",", limit = 4)
+                val loc1 = "${coords[0]},${coords[1]}"
+                val loc2 = "${coords[2]},${coords[3]}"
+                Log.d("RouteUserAdapter", "loc1: ${loc1}, loc2: ${loc2}")
+                putExtra("selfLocation", loc1)
+                putExtra("finLocation", loc2)
             }
             context.startActivity(intent)
-
         }
     }
 

@@ -19,19 +19,15 @@ import retrofit2.Response
 
 class RouteAdapter(private val routes: List<Route>, private val onCommentClick: (Route) -> Unit) :
     RecyclerView.Adapter<RouteAdapter.RouteViewHolder>() {
-
     class RouteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val routeTitle: TextView = view.findViewById(R.id.tvRouteTitle)
         val commentButton: Button = view.findViewById(R.id.btnAddComment)
         val ratingBar: RatingBar = view.findViewById(R.id.ratingBar)
         val commentText: TextView =
             view.findViewById(R.id.tvComment)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RouteViewHolder {
-
-
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_route, parent, false)
         return RouteViewHolder(view)
     }
@@ -40,8 +36,6 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
         val route = routes[position]
         holder.routeTitle.text = route.name
         holder.ratingBar.rating = route.rating.toFloat()
-
-        // Показываем комментарий, если он есть
         if (route.comment.isNotEmpty()) {
             holder.commentText.text = "Комментарий: ${route.comment}"
             holder.commentText.visibility = View.VISIBLE
@@ -53,15 +47,13 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
             val intent = Intent(context, MakeRouteActivity::class.java).apply {
                 Log.d("RouteAdapter", "Coords: ${route.coords}") // Отладочный вывод
                 val coords = route.coords.split(",", limit = 4) // Разбиваем строку на координаты
-                val loc1 = "${coords[0]},${coords[1]}" // Первая широта
-                val loc2 = "${coords[2]},${coords[3]}" // Первая широта
-
+                val loc1 = "${coords[0]},${coords[1]}"
+                val loc2 = "${coords[2]},${coords[3]}"
                 Log.d("RouteAdapter", "loc1: ${loc1}, loc2: ${loc2}") // Отладочный вывод
-                putExtra("selfLocation", loc1) // Передаем широту
-                putExtra("finLocation", loc2) // Передаем долготу
+                putExtra("selfLocation", loc1)
+                putExtra("finLocation", loc2)
             }
             context.startActivity(intent)
-
         }
         holder.commentButton.setOnClickListener {
             showCommentDialog(
@@ -70,7 +62,6 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
             )
         }
 
-        // Обработка изменения рейтинга
         holder.ratingBar.setOnRatingBarChangeListener { _, newRating, _ ->
             updateRouteRating(route.id, newRating.toInt())
             Log.d("RouteAdater", "Coords: ${route.coords}")
@@ -102,11 +93,9 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
     private fun showCommentDialog(context: Context, route: Route, commentTextView: TextView) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Добавить комментарий")
-
         val input = EditText(context)
         input.hint = "Введите ваш комментарий"
         builder.setView(input)
-
         builder.setPositiveButton("Добавить") { _, _ ->
             val commentText = input.text.toString()
             if (commentText.isNotEmpty()) {
@@ -116,11 +105,9 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
                     .show()
             }
         }
-
         builder.setNegativeButton("Отмена") { dialog, _ ->
             dialog.dismiss()
         }
-
         builder.show()
     }
 
@@ -128,7 +115,6 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
     private fun addComment(routeId: Int, comment: String, commentTextView: TextView) {
         val request = CommentRequest(routeId, comment)
         val call = RetrofitAPI.instance.addComment(request)
-
         call.enqueue(object : Callback<CommentResponse> {
             override fun onResponse(
                 call: Call<CommentResponse>,
@@ -160,7 +146,6 @@ class RouteAdapter(private val routes: List<Route>, private val onCommentClick: 
             }
         })
     }
-
 
     override fun getItemCount(): Int = routes.size
 }

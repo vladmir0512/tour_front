@@ -49,10 +49,8 @@ class AddressActivity : BaseActivity() {
 
 
         if (uid != null) {
-            // используем UID
             Log.d("AddressActivity", "UID: $uid")
         } else {
-            // Если UID не найден, например, перенаправляем на экран логина
             Toast.makeText(this, "Пожалуйста, войдите снова", Toast.LENGTH_SHORT).show()
         }
         Log.d("AddressActivity", "Полученный USER_ID: $uid") // Добавь лог для проверки
@@ -101,7 +99,7 @@ class AddressActivity : BaseActivity() {
                             }
                         }
                     } else {
-                        Toast.makeText(this, "Пожалуйста, ВКЛючите локацию.", Toast.LENGTH_SHORT)
+                        Toast.makeText(this, "Пожалуйста, включите локацию.", Toast.LENGTH_SHORT)
                             .show()
                         createLocationRequest()
                     }

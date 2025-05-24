@@ -12,9 +12,7 @@ import retrofit2.Response
 
 class TechSupportActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
-
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         val userId = Utils.getUidFromSharedPreferences(this)
         if (userId.isNullOrEmpty()) {
@@ -24,11 +22,8 @@ class TechSupportActivity : AppCompatActivity() {
         }
         enableEdgeToEdge()
         setContentView(R.layout.activity_tech_support)
-
-
         recyclerView = findViewById<RecyclerView>(R.id.recyclerViewRoutesLast)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
         loadRoutes(recyclerView)
     }
 }
@@ -39,9 +34,7 @@ private fun loadRoutes(recyclerView: RecyclerView) {
             if (response.isSuccessful) {
                 val routes = response.body() ?: emptyList()
                 val adapterr = RouteUserAdapter(routes) { route ->
-                    //todo
                 }
-
                 recyclerView.adapter = adapterr
             } else {
                 Log.e("API_ERROR", "Ошибка: ${response.code()}")

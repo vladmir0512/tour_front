@@ -15,6 +15,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -42,26 +44,36 @@ class LkActivity : BaseActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lk)
+
+        val root_layout: ConstraintLayout = findViewById(R.id.lk)
+        val currentTheme = sharedPreferences.getInt("theme", AppCompatDelegate.MODE_NIGHT_NO)
+        when (currentTheme) {
+            AppCompatDelegate.MODE_NIGHT_YES -> {
+
+
+                root_layout.setBackgroundResource(R.drawable.background_dark)
+            }
+
+            AppCompatDelegate.MODE_NIGHT_NO -> {
+                root_layout.setBackgroundResource(R.drawable.background_light)
+            }
+        }
+
         userId = Utils.getUidFromSharedPreferences(this).toString()
 
         if (userId != null) {
-            // используем UID
             Log.d("LkActivity", "UID: $userId")
         } else {
-            // Если UID не найден, например, перенаправляем на экран логина
             Toast.makeText(this, "Пожалуйста, войдите снова", Toast.LENGTH_SHORT).show()
         }
 
         val userEmail = Utils.getEmailFromSharedPreferences(this)
-        // Кнопки
         val exit = findViewById<Button>(R.id.exit);
         val makeRoute = findViewById<Button>(R.id.makeRoute);
         val historyRoute = findViewById<Button>(R.id.historyRoute);
         val preference = findViewById<Button>(R.id.preferenceId);
         val tech = findViewById<Button>(R.id.tech);
         val contacts = findViewById<Button>(R.id.contacts);
-        val privacyPolicy = findViewById<ImageView>(R.id.privacyPolicy);
-
         val titleLkActivity = findViewById<TextView>(R.id.titleLk)
 
         titleLkActivity.text = "Личный кабинет\n$userEmail"
@@ -75,24 +87,19 @@ class LkActivity : BaseActivity() {
 
 
         exit.setOnClickListener() {
-//            // Выход
             Utils.showExitConfirmationDialog(this)
         }
         makeRoute.setOnClickListener() {
             Log.d("LkActivity", "Передача userId: $userId")
-
             val addressActivity = Intent(this, AddressActivity::class.java)
             addressActivity.putExtra("USER_ID", userId) // убедись, что userId - это Int
             startActivity(addressActivity)
-
         }
         historyRoute.setOnClickListener() {
-            // Скачок на HistoryRoutes
             val historyRoutes = Intent(this, HistoryRoutesActivity::class.java)
             startActivity(historyRoutes)
         }
         preference.setOnClickListener() {
-
             if (userId.isNullOrEmpty()) {
                 Log.e("LkActivity", "Ошибка: uid пустой!")
             } else {
@@ -100,7 +107,6 @@ class LkActivity : BaseActivity() {
                 val preferenceActivity = Intent(this, PreferencesActivity::class.java)
                 preferenceActivity.flags =
                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-
                 preferenceActivity.putExtra("userId", userId)
                 startActivity(preferenceActivity)
             }
@@ -111,18 +117,15 @@ class LkActivity : BaseActivity() {
             startActivity(techSupportActivity)
         }
         contacts.setOnClickListener() {
-            // Скачок на MekeRoute
             val contactsActivity = Intent(this, ContactsActivity::class.java)
             startActivity(contactsActivity)
         }
         Log.d("LkActivity", "USER_ID: $userId")
-
         if (userId != null) {
             loadUserAvatar(userId)
         } else {
             Log.d("LkActivity", "userId: ${userId}")
         }
-
         avatarImageView.setOnClickListener {
             requestPermissionAndOpenGallery()
         }
@@ -130,7 +133,6 @@ class LkActivity : BaseActivity() {
 
     private fun updateAvatarUI(avatarUrl: String?) {
         Log.d("LkActivity", "Final Avatar URL: $avatarUrl") // Проверяем URL
-
         Glide.with(this)
             .load(avatarUrl)
             .placeholder(R.drawable.placeholder_avatar)
@@ -138,7 +140,6 @@ class LkActivity : BaseActivity() {
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(avatarImageView)
     }
-
 
     private fun loadUserAvatar(userId: String) {
         RetrofitAPI.instance.getUserAvatar(userId)
@@ -260,15 +261,4 @@ class LkActivity : BaseActivity() {
                 }
             })
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        val updateTheme = intent.getBooleanExtra("updateTheme", false)
-//
-//        if (updateTheme) {
-//            intent.putExtra("updateTheme", false) // Сбрасываем флаг перед recreate()
-//            recreate()
-//        }
-//    }
-
 }

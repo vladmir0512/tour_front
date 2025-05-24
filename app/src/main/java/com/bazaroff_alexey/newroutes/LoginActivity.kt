@@ -10,6 +10,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import org.json.JSONObject
@@ -23,28 +25,33 @@ class LoginActivity : BaseActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.login)) { v, insets ->
+        val sharedPreferences = getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+
+        val root_layout: ConstraintLayout = findViewById(R.id.login)
+        ViewCompat.setOnApplyWindowInsetsListener(root_layout) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val currentTheme = sharedPreferences.getInt("theme", AppCompatDelegate.MODE_NIGHT_NO)
+        when (currentTheme) {
+            AppCompatDelegate.MODE_NIGHT_YES -> {
+                root_layout.setBackgroundResource(R.drawable.background_dark)
+            }
 
-        // Указываем переменные, введенные пользователем из EditText
-        // Поля ввода
+            AppCompatDelegate.MODE_NIGHT_NO -> {
+                root_layout.setBackgroundResource(R.drawable.background_light)
+            }
+        }
         val login_userLogin = findViewById<EditText>(R.id.login_userLogin)
         val login_userPass = findViewById<EditText>(R.id.login_userPass)
-
-        // Кнопки
         val txtDontHaveAcc = findViewById<TextView>(R.id.txtDontHaveAcc)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
-        // "Создайте" будет другим цветом
         Utils.highlightText(txtDontHaveAcc, 17, 26)
-
         onClickListeners(btnLogin, txtDontHaveAcc, login_userLogin, login_userPass)
     }
 
@@ -60,11 +67,8 @@ class LoginActivity : BaseActivity() {
             if (!Utils.validateInput(this, email, password)) {
                 return@setOnClickListener
             }
-
             sendData(email, password)
-
         }
-
         txtDontHaveAcc.setOnClickListener() {
             toRegisterActivity()
         }
@@ -72,11 +76,8 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun sendData(log: String, pass: String) {
-
-        // Формируем запрос
         val requestData = RequestData(email = log, password = pass)
         try {
-            // Отправляем данные
             Log.d("LoginActivity", "Отправка данных: $requestData") // Лог отправляемых данных
             RetrofitAPI.instance.sendLogin(requestData)
                 .enqueue(object : Callback<FirebaseAuthResponse> {
@@ -89,7 +90,7 @@ class LoginActivity : BaseActivity() {
                             Log.d(
                                 "LoginActivity",
                                 "Успешный ответ: $firebaseAuthResponse"
-                            ) // Лог успешного ответа
+                            )
                             if (firebaseAuthResponse != null) {
                                 Log.d("FirebaseAuth", "User  ID: ${firebaseAuthResponse.localId}")
                                 Log.d("FirebaseAuth", "Email: ${firebaseAuthResponse.email}")
@@ -97,15 +98,11 @@ class LoginActivity : BaseActivity() {
                                 Log.d("FirebaseAuth", "ID Token: ${firebaseAuthResponse}")
                                 Log.e("FirebaseAuth", firebaseAuthResponse.toString())
 
-                                // Перейти к следующему экрану
                                 toLKActivity(firebaseAuthResponse)
                             }
                         } else {
-                            // Извлечение сообщения об ошибке из тела ответа
                             val errorResponse = response.errorBody()?.string()
                             Log.e("LoginActivity", "Ошибка: ${response.code()} - $errorResponse")
-
-                            // Попробуем разобрать JSON, если это возможно
                             try {
                                 val jsonObject = JSONObject(errorResponse)
                                 val errorMessage = jsonObject.getString("error")
@@ -125,7 +122,7 @@ class LoginActivity : BaseActivity() {
                         Log.e(
                             "LoginActivity",
                             "Ошибка при выполнении запроса: ${t.message}"
-                        ) // Лог ошибки при выполнении запроса
+                        )
                         Toast.makeText(
                             this@LoginActivity,
                             "Ошибка при выполнении запроса: ${t.message}",
@@ -142,7 +139,6 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun toRegisterActivity() {
-        // Скачок на RegisterActivity
         val registerActivity = Intent(
             this@LoginActivity,
             RegisterActivity::class.java
@@ -168,7 +164,7 @@ fun saveUidToSharedPreferences(context: Context, uid: String) {
     val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("userPrefs", Context.MODE_PRIVATE)
     val editor: SharedPreferences.Editor = sharedPreferences.edit()
-    editor.putString("firebaseAuthRes", uid) // Сохраняем UID в SharedPreferences
+    editor.putString("firebaseAuthRes", uid)
     editor.apply()
 }
 
@@ -176,6 +172,6 @@ fun saveEmailToSharedPreferences(context: Context, email: String) {
     val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("userEmail", Context.MODE_PRIVATE)
     val editor: SharedPreferences.Editor = sharedPreferences.edit()
-    editor.putString("firebaseEmail", email) // Сохраняем UID в SharedPreferences
+    editor.putString("firebaseEmail", email)
     editor.apply()
 }
