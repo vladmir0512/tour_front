@@ -111,6 +111,17 @@ class AddressActivity : BaseActivity() {
             }
         }
 
+        // Инициализация AutoCompleteTextView
+        autoCompleteTextView = binding.autoCompleteTextView
+        adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, addressList)
+        autoCompleteTextView.setAdapter(adapter)
+
+        // Добавляем слушатель изменений текста
+        autoCompleteTextView.setOnItemClickListener { _, _, position, _ ->
+            val selectedAddress = addressList[position]
+            searchAddress(selectedAddress, locationPermissionRequest)
+        }
+
         binding.btnAddress.setOnClickListener {
 
 
@@ -131,10 +142,10 @@ class AddressActivity : BaseActivity() {
         query: String,
         locationPermissionRequest: ActivityResultLauncher<Array<String>>
     ) {
-        Log.d("Retrofit", "Отправка запроса с query: $query")  // Лог перед запросом
+        Log.d("Retrofit", "Отправка запроса с query: $query")
 
         RetrofitAPI.instance.searchAddress(query)
-            .enqueue(object : Callback<AddressResponse> { // <-- исправили тип
+            .enqueue(object : Callback<AddressResponse> {
                 override fun onResponse(
                     call: Call<AddressResponse>,
                     response: Response<AddressResponse>
@@ -147,6 +158,13 @@ class AddressActivity : BaseActivity() {
                             val lat = result.lat
                             val lon = result.lon
                             val address = result.address
+                            
+                            // Добавляем адрес в список, если его там еще нет
+                            if (!addressList.contains(address)) {
+                                addressList.add(address)
+                                adapter.notifyDataSetChanged()
+                            }
+
                             Log.d("Retrofit", "Координаты: lat=$lat, lon=$lon, address=$address")
 
                             Toast.makeText(
@@ -164,7 +182,6 @@ class AddressActivity : BaseActivity() {
                             locationGlobalFin = "${lat},${lon}"
                             Log.d("Retrofit", "locationGlobal fin: $locationGlobalFin")
                             toMakeRoute()
-
 
                         } else {
                             Log.w("Retrofit", "Ответ пустой")
